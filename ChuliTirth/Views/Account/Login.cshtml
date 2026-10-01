@@ -1,0 +1,35 @@
+@model LoginViewModel
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
+@{
+    ViewData["Title"] = "Login";
+}
+<section class="ct-section">
+    <div class="container-ct" style="max-width:420px;">
+        <div class="ct-section-title" style="text-align:left;"><h2>Login</h2></div>
+        <div asp-validation-summary="All" class="ct-alert ct-alert-danger"></div>
+        <form asp-controller="Account" asp-action="Login" method="post" class="ct-card" style="padding:1.5rem;">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ReturnUrl" />
+            <div class="mb-3 ct-field"><label asp-for="EmailOrMobile"></label><input asp-for="EmailOrMobile" class="form-control" /><span asp-validation-for="EmailOrMobile" class="text-danger"></span></div>
+            <div class="mb-3 ct-field">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" type="password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+                <div class="mt-1"><a asp-controller="Account" asp-action="ForgotPassword" style="font-size:0.85rem;">Forgot password?</a></div>
+            </div>
+            <div class="form-check mb-3">
+                <input asp-for="RememberMe" class="form-check-input" />
+                <label asp-for="RememberMe" class="form-check-label"></label>
+            </div>
+            <button type="submit" class="btn-ct-primary w-100 justify-content-center">Login</button>
+            <p class="mt-3 text-center ct-muted">New here? <a asp-controller="Account" asp-action="Register">Create an account</a></p>
+        </form>
+        @if (Env.IsDevelopment())
+        {
+            <div class="ct-alert ct-alert-info mt-3" style="font-size:0.85rem;">
+                Development sample accounts — Admin: <code>admin@chulitirth.local</code> / <code>Admin@12345</code>
+            </div>
+        }
+    </div>
+</section>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

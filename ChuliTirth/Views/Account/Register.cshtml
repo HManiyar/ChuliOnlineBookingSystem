@@ -1,0 +1,25 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+    string T(string key) => UiText.T(CultureInfo.CurrentUICulture, key);
+}
+<section class="ct-section">
+    <div class="container-ct" style="max-width:480px;">
+        <div class="ct-section-title" style="text-align:left;"><h2>@T("CreateAccount")</h2></div>
+        <div asp-validation-summary="All" class="ct-alert ct-alert-danger"></div>
+        <form asp-controller="Account" asp-action="Register" method="post" class="ct-card" style="padding:1.5rem;">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ReturnUrl" />
+            <div class="mb-3 ct-field"><label asp-for="FullName"></label><input asp-for="FullName" class="form-control" /><span asp-validation-for="FullName" class="text-danger"></span></div>
+            <div class="mb-3 ct-field"><label asp-for="Mobile"></label><input asp-for="Mobile" class="form-control" /><span asp-validation-for="Mobile" class="text-danger"></span></div>
+            <div class="mb-3 ct-field"><label asp-for="Email"></label><input asp-for="Email" class="form-control" /><span asp-validation-for="Email" class="text-danger"></span></div>
+            <div class="mb-3 ct-field"><label asp-for="Password"></label><input asp-for="Password" type="password" class="form-control" /><span asp-validation-for="Password" class="text-danger"></span></div>
+            <div class="mb-3 ct-field"><label asp-for="ConfirmPassword"></label><input asp-for="ConfirmPassword" type="password" class="form-control" /><span asp-validation-for="ConfirmPassword" class="text-danger"></span></div>
+            <button type="submit" class="btn-ct-primary w-100 justify-content-center">@T("Register")</button>
+            <p class="mt-3 text-center ct-muted">@T("AlreadyHaveAccount") <a asp-controller="Account" asp-action="Login">@T("Login")</a></p>
+        </form>
+    </div>
+</section>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

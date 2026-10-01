@@ -1,0 +1,25 @@
+@model RoomType
+<div class="row g-3">
+    <div class="col-md-4 ct-field"><label asp-for="Name"></label><input asp-for="Name" class="form-control" /></div>
+    <div class="col-md-4 ct-field"><label asp-for="NameGujarati"></label><input asp-for="NameGujarati" class="form-control" /></div>
+    <div class="col-md-4 ct-field"><label asp-for="NameHindi"></label><input asp-for="NameHindi" class="form-control" /></div>
+
+    <div class="col-md-4 ct-field"><label asp-for="Description"></label><textarea asp-for="Description" class="form-control"></textarea></div>
+    <div class="col-md-4 ct-field"><label asp-for="DescriptionGujarati"></label><textarea asp-for="DescriptionGujarati" class="form-control"></textarea></div>
+    <div class="col-md-4 ct-field"><label asp-for="DescriptionHindi"></label><textarea asp-for="DescriptionHindi" class="form-control"></textarea></div>
+
+    <div class="col-md-3 ct-field"><label asp-for="Capacity"></label><input asp-for="Capacity" type="number" class="form-control" /></div>
+    <div class="col-md-3 ct-field"><label asp-for="BedCount"></label><input asp-for="BedCount" type="number" class="form-control" /></div>
+    <div class="col-md-3 ct-field"><label asp-for="Price"></label><input asp-for="Price" type="number" step="0.01" class="form-control" /></div>
+    <div class="col-md-3 ct-field"><label asp-for="DisplayOrder"></label><input asp-for="DisplayOrder" type="number" class="form-control" /></div>
+
+    <div class="col-md-2 form-check"><input asp-for="IsAC" class="form-check-input" /> <label asp-for="IsAC" class="form-check-label"></label></div>
+    <div class="col-md-3 form-check"><input asp-for="HasAttachedBathroom" class="form-check-input" /> <label asp-for="HasAttachedBathroom" class="form-check-label"></label></div>
+    <div class="col-md-2 form-check"><input asp-for="HasHotWater" class="form-check-input" /> <label asp-for="HasHotWater" class="form-check-label"></label></div>
+    <div class="col-md-2 form-check"><input asp-for="HasWifi" class="form-check-input" /> <label asp-for="HasWifi" class="form-check-label"></label></div>
+    <div class="col-md-2 form-check"><input asp-for="HasParking" class="form-check-input" /> <label asp-for="HasParking" class="form-check-label"></label></div>
+    <div class="col-md-2 form-check"><input asp-for="IsActive" class="form-check-input" /> <label asp-for="IsActive" class="form-check-label"></label></div>
+</div>
+<div class="ct-divider"></div>
+<button type="submit" class="btn-ct-primary">Save</button>
+<a asp-action="Index" class="btn-ct-secondary">Cancel</a>

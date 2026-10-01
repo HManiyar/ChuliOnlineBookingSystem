@@ -1,0 +1,62 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
+@{
+    var cultureInfo = CultureInfo.CurrentUICulture;
+    var culture = cultureInfo.TwoLetterISOLanguageName;
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+    string T(string key) => UiText.T(cultureInfo, key);
+}
+<header class="ct-header">
+    <div class="container-ct ct-header-inner">
+        <a asp-controller="Home" asp-action="Index" class="ct-brand">
+            <span class="emblem"><i class="bi bi-flower1"></i></span>
+            <span>Chuli Tirth Dharamshala</span>
+        </a>
+
+        <button class="ct-hamburger" type="button" id="ctNavToggle" aria-label="Toggle navigation" aria-expanded="false">
+            <i class="bi bi-list"></i>
+        </button>
+
+        <nav class="ct-nav" id="ctNav">
+            <a asp-controller="Home" asp-action="Index">@T("Home")</a>
+            <a asp-controller="About" asp-action="Index">@T("About")</a>
+            <a asp-controller="Rooms" asp-action="Index">@T("Rooms")</a>
+            <a asp-controller="Facilities" asp-action="Index">@T("Facilities")</a>
+            <a asp-controller="Bhojanshala" asp-action="Index">@T("Bhojanshala")</a>
+            <a asp-controller="JainTithi" asp-action="Index">@T("JainTithi")</a>
+            <a asp-controller="Gallery" asp-action="Index">@T("Gallery")</a>
+            <a asp-controller="BookingRules" asp-action="Index">@T("BookingRules")</a>
+            <a asp-controller="Contact" asp-action="Index">@T("Contact")</a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a asp-controller="MyBookings" asp-action="Index">@T("MyBookings")</a>
+            }
+        </nav>
+
+        <div class="ct-header-actions">
+            <div class="ct-lang-switch">
+                <a class="@(culture == "gu" ? "active" : "")" asp-controller="Language" asp-action="SetCulture" asp-route-culture="gu-IN" asp-route-returnUrl="@returnUrl">ગુજરાતી</a>
+                <a class="@(culture == "hi" ? "active" : "")" asp-controller="Language" asp-action="SetCulture" asp-route-culture="hi-IN" asp-route-returnUrl="@returnUrl">हिन्दी</a>
+                <a class="@(culture == "en" ? "active" : "")" asp-controller="Language" asp-action="SetCulture" asp-route-culture="en-US" asp-route-returnUrl="@returnUrl">English</a>
+            </div>
+
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <span class="ct-muted d-none d-md-inline">@User.Identity!.Name</span>
+                @if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Staff"))
+                {
+                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="btn-ct-secondary">@T("Admin")</a>
+                }
+                <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn-ct-secondary">@T("Logout")</button>
+                </form>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="Login" class="btn-ct-secondary">@T("Login")</a>
+            }
+            <a asp-controller="Rooms" asp-action="Index" class="btn-ct-primary"><i class="bi bi-calendar-check"></i> @T("BookNow")</a>
+        </div>
+    </div>
+</header>

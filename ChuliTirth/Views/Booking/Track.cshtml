@@ -1,0 +1,31 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
+@model Booking?
+@{
+    ViewData["Title"] = "Track Your Booking";
+    var cultureInfo = CultureInfo.CurrentUICulture;
+    string T(string key) => UiText.T(cultureInfo, key);
+}
+<section class="ct-section">
+    <div class="container-ct" style="max-width:600px;">
+        <div class="ct-section-title" style="text-align:left;"><h2>@T("TrackYourBooking")</h2></div>
+        <form method="get" class="ct-card d-flex gap-2" style="padding:1.25rem;">
+            <input type="text" name="bookingNumber" class="form-control" placeholder="e.g. CT-2026-000123" value="@Context.Request.Query["bookingNumber"]" />
+            <button type="submit" class="btn-ct-primary">@T("Track")</button>
+        </form>
+
+        @if (Model is not null)
+        {
+            <div class="ct-card mt-3" style="padding:1.5rem;">
+                <p><strong>@T("BookingNumber"):</strong> @Model.BookingNumber</p>
+                <p><strong>@T("Status"):</strong> <span class="ct-badge ct-badge-confirmed">@Model.Status</span></p>
+                <p><strong>@T("CheckIn"):</strong> @Model.CheckIn.ToString("dd MMM yyyy") &nbsp; <strong>@T("CheckOut"):</strong> @Model.CheckOut.ToString("dd MMM yyyy")</p>
+                <p><strong>@T("Total"):</strong> ₹@Model.TotalAmount.ToString("N2")</p>
+            </div>
+        }
+        else if (Context.Request.Query.ContainsKey("bookingNumber"))
+        {
+            <div class="ct-alert ct-alert-danger mt-3">No booking found with that number.</div>
+        }
+    </div>
+</section>

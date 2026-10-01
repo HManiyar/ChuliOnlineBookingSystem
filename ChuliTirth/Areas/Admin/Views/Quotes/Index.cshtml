@@ -1,0 +1,27 @@
+@model List<JainQuote>
+@{ ViewData["Title"] = "Jain Quotes"; }
+<div class="ct-admin-topbar"><div></div><a asp-action="Create" class="btn-ct-primary">+ New Quote</a></div>
+<div class="table-responsive-ct">
+    <table class="table-ct w-100">
+        <thead><tr><th>English</th><th>Gujarati</th><th>Hindi</th><th>Order</th><th>Active</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var q in Model)
+            {
+                <tr>
+                    <td>@q.TextEnglish</td>
+                    <td>@q.TextGujarati</td>
+                    <td>@q.TextHindi</td>
+                    <td>@q.DisplayOrder</td>
+                    <td><span class="ct-badge @(q.IsActive ? "ct-badge-confirmed" : "ct-badge-cancelled")">@(q.IsActive ? "Active" : "Inactive")</span></td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@q.Id">Edit</a>
+                        <form asp-action="Delete" asp-route-id="@q.Id" method="post" onsubmit="return confirm('Delete this quote?');" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button class="btn-link" style="border:none;background:none;color:var(--ct-danger);">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

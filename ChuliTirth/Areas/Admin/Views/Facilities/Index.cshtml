@@ -1,0 +1,20 @@
+@model List<Facility>
+@{ ViewData["Title"] = "Facilities"; }
+<div class="ct-admin-topbar"><div></div><a asp-action="Create" class="btn-ct-primary">+ New Facility</a></div>
+<div class="table-responsive-ct">
+    <table class="table-ct w-100">
+        <thead><tr><th>Icon</th><th>Name</th><th>Order</th><th>Active</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var f in Model)
+            {
+                <tr>
+                    <td><i class="bi @(f.Icon ?? "bi-check-circle")"></i></td>
+                    <td>@f.Name</td>
+                    <td>@f.DisplayOrder</td>
+                    <td><span class="ct-badge @(f.IsActive ? "ct-badge-confirmed" : "ct-badge-cancelled")">@(f.IsActive ? "Active" : "Inactive")</span></td>
+                    <td><a asp-action="Edit" asp-route-id="@f.Id">Edit</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

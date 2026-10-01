@@ -1,0 +1,61 @@
+@using System.Globalization
+@{
+    var culture = CultureInfo.CurrentUICulture.Name;
+    var pageTitle = ViewData["Title"] is string t && !string.IsNullOrWhiteSpace(t) ? $"{t} — Chuli Tirth Dharamshala" : "Chuli Tirth Dharamshala — Jain Tirth Room Booking";
+    var pageDescription = ViewData["Description"] as string ?? "Book your stay at Chuli Tirth Dharamshala. Peaceful, spiritual accommodation for Jain pilgrims with AC, Non-AC and Family rooms.";
+}
+<!DOCTYPE html>
+<html lang="@culture" dir="ltr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@pageTitle</title>
+    <meta name="description" content="@pageDescription" />
+    <meta property="og:title" content="@pageTitle" />
+    <meta property="og:description" content="@pageDescription" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="canonical" href="@($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}")" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;800&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @await RenderSectionAsync("Head", required: false)
+</head>
+<body>
+    <a href="#ct-main" class="visually-hidden-focusable">Skip to main content</a>
+
+    @await Html.PartialAsync("_Navbar")
+    @await Component.InvokeAsync("TithiTicker")
+    @await Component.InvokeAsync("JainQuoteTicker")
+    @await Component.InvokeAsync("AnnouncementBanner")
+
+    <main id="ct-main">
+        <div class="container-ct" style="margin-top:1rem;">
+            @if (TempData["Success"] is string success)
+            {
+                <div class="ct-alert ct-alert-success" role="status">@success</div>
+            }
+            @if (TempData["Error"] is string error)
+            {
+                <div class="ct-alert ct-alert-danger" role="alert">@error</div>
+            }
+            @if (TempData["BookingError"] is string bookingError)
+            {
+                <div class="ct-alert ct-alert-danger" role="alert">@bookingError</div>
+            }
+        </div>
+        @RenderBody()
+    </main>
+
+    @await Component.InvokeAsync("Footer")
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

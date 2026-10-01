@@ -1,0 +1,7 @@
+@model Facility
+@{ ViewData["Title"] = "Edit Facility"; }
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="ct-card" style="padding:1.5rem;">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <partial name="_Form" />
+</form>

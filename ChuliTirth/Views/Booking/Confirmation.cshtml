@@ -1,0 +1,46 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
+@model BookingConfirmationViewModel
+@{
+    ViewData["Title"] = "Booking Confirmed";
+    var b = Model.Booking;
+    string T(string key) => UiText.T(CultureInfo.CurrentUICulture, key);
+}
+<section class="ct-section">
+    <div class="container-ct" style="max-width:700px;">
+        <div class="ct-alert ct-alert-success text-center">
+            <i class="bi bi-check-circle-fill" style="font-size:2rem;"></i>
+            <h2 class="mt-2 mb-0">@T("BookingConfirmed")</h2>
+            <p class="mb-0">@T("BookingNumber"): <strong>@b.BookingNumber</strong></p>
+        </div>
+
+        @if (Model.IsSimulatedPayment)
+        {
+            <div class="ct-alert ct-alert-info"><i class="bi bi-info-circle"></i> @Model.PaymentMessage</div>
+        }
+
+        <div class="ct-card" style="padding:1.5rem;" id="printArea">
+            <table class="table-ct w-100">
+                <tbody>
+                    <tr><th>@T("CheckIn")</th><td>@b.CheckIn.ToString("dd MMM yyyy")</td></tr>
+                    <tr><th>@T("CheckOut")</th><td>@b.CheckOut.ToString("dd MMM yyyy")</td></tr>
+                    <tr><th>@T("RoomsHeader")</th><td>@string.Join(", ", b.BookingRooms.Select(r => $"{r.RoomType.Name} (#{r.Room.RoomNumber})"))</td></tr>
+                    <tr><th>@T("GuestsShort")</th><td>@b.Adults adult(s), @b.Children child(ren)</td></tr>
+                    <tr><th>@T("GuestName")</th><td>@b.FirstName @b.LastName</td></tr>
+                    <tr><th>@T("Status")</th><td><span class="ct-badge ct-badge-confirmed">@b.Status</span></td></tr>
+                    <tr class="fw-bold"><th>@T("Total")</th><td>₹@b.TotalAmount.ToString("N2")</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex gap-2 flex-wrap mt-3">
+            <button class="btn-ct-secondary" onclick="window.print()"><i class="bi bi-printer"></i> @T("PrintBooking")</button>
+            <a class="btn-ct-secondary" href="mailto:?subject=Chuli Tirth Booking @b.BookingNumber&body=My booking number is @b.BookingNumber">@T("EmailConfirmation")</a>
+            <a class="btn-ct-secondary" href="https://wa.me/?text=My Chuli Tirth booking number is @b.BookingNumber" target="_blank" rel="noopener">WhatsApp</a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a class="btn-ct-primary" asp-controller="MyBookings" asp-action="Index">@T("ViewMyBookings")</a>
+            }
+        </div>
+    </div>
+</section>

@@ -1,0 +1,28 @@
+@model JainTithi
+@{ ViewData["Title"] = "Edit Tithi Entry"; }
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="ct-card" style="padding:1.5rem;">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <div class="row g-3">
+        <div class="col-md-3 ct-field"><label asp-for="GregorianDate"></label><input asp-for="GregorianDate" type="date" class="form-control" /></div>
+        <div class="col-md-3 ct-field"><label asp-for="Paksha"></label><input asp-for="Paksha" class="form-control" placeholder="Sud / Vad" /></div>
+        <div class="col-md-3 ct-field"><label asp-for="PakshaGujarati"></label><input asp-for="PakshaGujarati" class="form-control" /></div>
+        <div class="col-md-3 ct-field"><label asp-for="PakshaHindi"></label><input asp-for="PakshaHindi" class="form-control" /></div>
+
+        <div class="col-md-4 ct-field"><label asp-for="TithiName"></label><input asp-for="TithiName" class="form-control" /></div>
+        <div class="col-md-4 ct-field"><label asp-for="TithiNameGujarati"></label><input asp-for="TithiNameGujarati" class="form-control" /></div>
+        <div class="col-md-4 ct-field"><label asp-for="TithiNameHindi"></label><input asp-for="TithiNameHindi" class="form-control" /></div>
+
+        <div class="col-md-4 ct-field"><label asp-for="SpecialOccasion"></label><input asp-for="SpecialOccasion" class="form-control" /></div>
+        <div class="col-md-4 ct-field"><label asp-for="SpecialOccasionGujarati"></label><input asp-for="SpecialOccasionGujarati" class="form-control" /></div>
+        <div class="col-md-4 ct-field"><label asp-for="SpecialOccasionHindi"></label><input asp-for="SpecialOccasionHindi" class="form-control" /></div>
+
+        <div class="col-md-4 form-check mt-4">
+            <input asp-for="IsActive" class="form-check-input" />
+            <label asp-for="IsActive" class="form-check-label"></label>
+        </div>
+    </div>
+    <div class="ct-divider"></div>
+    <button type="submit" class="btn-ct-primary">Save</button>
+    <a asp-action="Index" class="btn-ct-secondary">Cancel</a>
+</form>

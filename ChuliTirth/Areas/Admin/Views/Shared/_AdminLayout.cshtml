@@ -1,0 +1,66 @@
+@{
+    var pageTitle = ViewData["Title"] is string t && !string.IsNullOrWhiteSpace(t) ? $"{t} — Admin" : "Admin — Chuli Tirth Dharamshala";
+    string CurrentController = (string)ViewContext.RouteData.Values["controller"]!;
+    string IsActive(string controller) => CurrentController.Equals(controller, StringComparison.OrdinalIgnoreCase) ? "active" : "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@pageTitle</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="ct-admin-shell">
+        <aside class="ct-admin-sidebar">
+            <div style="padding:1.25rem;font-weight:800;color:#fff;">Chuli Tirth <span class="ct-muted" style="color:#d9c6ab;">Admin</span></div>
+            <a class="@IsActive("Dashboard")" asp-area="Admin" asp-controller="Dashboard" asp-action="Index"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            <a class="@IsActive("Bookings")" asp-area="Admin" asp-controller="Bookings" asp-action="Index"><i class="bi bi-journal-check"></i> Bookings</a>
+            <a class="@IsActive("RoomTypes")" asp-area="Admin" asp-controller="RoomTypes" asp-action="Index"><i class="bi bi-house-door"></i> Room Types</a>
+            <a class="@IsActive("Rooms")" asp-area="Admin" asp-controller="Rooms" asp-action="Index"><i class="bi bi-grid-3x3-gap"></i> Room Inventory</a>
+            <a class="@IsActive("Announcements")" asp-area="Admin" asp-controller="Announcements" asp-action="Index"><i class="bi bi-megaphone"></i> Announcements</a>
+            <a class="@IsActive("Quotes")" asp-area="Admin" asp-controller="Quotes" asp-action="Index"><i class="bi bi-quote"></i> Jain Quotes</a>
+            <a class="@IsActive("Tithis")" asp-area="Admin" asp-controller="Tithis" asp-action="Index"><i class="bi bi-calendar3"></i> Jain Tithi</a>
+            <a class="@IsActive("Bhojanshala")" asp-area="Admin" asp-controller="Bhojanshala" asp-action="Index"><i class="bi bi-egg-fried"></i> Bhojanshala</a>
+            <a class="@IsActive("Facilities")" asp-area="Admin" asp-controller="Facilities" asp-action="Index"><i class="bi bi-check-circle"></i> Facilities</a>
+            <a class="@IsActive("Gallery")" asp-area="Admin" asp-controller="Gallery" asp-action="Index"><i class="bi bi-images"></i> Gallery</a>
+            <a class="@IsActive("BookingRules")" asp-area="Admin" asp-controller="BookingRules" asp-action="Index"><i class="bi bi-journal-text"></i> Booking Rules</a>
+            <a class="@IsActive("ContactMessages")" asp-area="Admin" asp-controller="ContactMessages" asp-action="Index"><i class="bi bi-envelope"></i> Contact Messages</a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a class="@IsActive("Settings")" asp-area="Admin" asp-controller="Settings" asp-action="Index"><i class="bi bi-gear"></i> Settings</a>
+            }
+            <div class="ct-divider" style="background:rgba(255,255,255,0.15);"></div>
+            <a asp-controller="Home" asp-action="Index" asp-area=""><i class="bi bi-box-arrow-left"></i> Back to Website</a>
+        </aside>
+
+        <main class="ct-admin-main">
+            <div class="ct-admin-topbar">
+                <h3 class="mb-0">@ViewData["Title"]</h3>
+                <span class="ct-muted">@User.Identity!.Name (@string.Join(", ", ((System.Security.Claims.ClaimsPrincipal)User).FindAll(System.Security.Claims.ClaimTypes.Role).Select(c => c.Value)))</span>
+            </div>
+
+            @if (TempData["Success"] is string success)
+            {
+                <div class="ct-alert ct-alert-success">@success</div>
+            }
+            @if (TempData["Error"] is string error)
+            {
+                <div class="ct-alert ct-alert-danger">@error</div>
+            }
+
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

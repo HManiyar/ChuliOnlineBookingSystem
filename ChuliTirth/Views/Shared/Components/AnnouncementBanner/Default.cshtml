@@ -1,0 +1,19 @@
+@using System.Globalization
+@model List<Announcement>
+@{
+    var culture = CultureInfo.CurrentUICulture;
+    var active = Model.Where(a => a.Priority >= AnnouncementPriority.High).ToList();
+}
+@if (active.Any())
+{
+    <div class="container-ct" style="margin-top:1rem;">
+        @foreach (var a in active)
+        {
+            var title = LocalizationHelper.Pick(culture, a.Title, a.TitleGujarati, a.TitleHindi);
+            var body = LocalizationHelper.Pick(culture, a.Body, a.BodyGujarati, a.BodyHindi);
+            <div class="ct-alert @(a.Priority == AnnouncementPriority.Urgent ? "ct-alert-danger" : "ct-alert-info")">
+                <strong>@title</strong> — @body
+            </div>
+        }
+    </div>
+}

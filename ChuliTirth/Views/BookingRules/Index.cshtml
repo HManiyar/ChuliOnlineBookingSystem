@@ -1,0 +1,25 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
+@model List<BookingRule>
+@{
+    ViewData["Title"] = "Booking Rules";
+    var culture = CultureInfo.CurrentUICulture;
+    string T(string key) => UiText.T(culture, key);
+}
+<section class="ct-section">
+    <div class="container-ct" style="max-width:800px;">
+        <div class="ct-section-title" style="text-align:left;"><h2>@T("BookingRulesAndPolicies")</h2></div>
+        @foreach (var group in Model.GroupBy(r => r.Category))
+        {
+            <h5 class="mt-4">@group.Key</h5>
+            <ul>
+                @foreach (var rule in group)
+                {
+                    var title = LocalizationHelper.Pick(culture, rule.Title, rule.TitleGujarati, rule.TitleHindi);
+                    var desc = LocalizationHelper.Pick(culture, rule.Description, rule.DescriptionGujarati, rule.DescriptionHindi);
+                    <li><strong>@title:</strong> @desc</li>
+                }
+            </ul>
+        }
+    </div>
+</section>

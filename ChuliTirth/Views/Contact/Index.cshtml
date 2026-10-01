@@ -1,0 +1,23 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
+@model ContactFormViewModel
+@{
+    ViewData["Title"] = "Contact Us";
+    string T(string key) => UiText.T(CultureInfo.CurrentUICulture, key);
+}
+<section class="ct-section">
+    <div class="container-ct" style="max-width:600px;">
+        <div class="ct-section-title" style="text-align:left;"><h2>@T("ContactUs")</h2></div>
+        <div asp-validation-summary="All" class="ct-alert ct-alert-danger"></div>
+        <form asp-controller="Contact" asp-action="Index" method="post" class="ct-card" style="padding:1.5rem;">
+            @Html.AntiForgeryToken()
+            <div class="mb-3 ct-field"><label asp-for="Name"></label><input asp-for="Name" class="form-control" /><span asp-validation-for="Name" class="text-danger"></span></div>
+            <div class="mb-3 ct-field"><label asp-for="Email"></label><input asp-for="Email" class="form-control" /><span asp-validation-for="Email" class="text-danger"></span></div>
+            <div class="mb-3 ct-field"><label asp-for="Mobile"></label><input asp-for="Mobile" class="form-control" /></div>
+            <div class="mb-3 ct-field"><label asp-for="Subject"></label><input asp-for="Subject" class="form-control" /><span asp-validation-for="Subject" class="text-danger"></span></div>
+            <div class="mb-3 ct-field"><label asp-for="Message"></label><textarea asp-for="Message" rows="4" class="form-control"></textarea><span asp-validation-for="Message" class="text-danger"></span></div>
+            <button type="submit" class="btn-ct-primary">@T("SendMessage")</button>
+        </form>
+    </div>
+</section>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

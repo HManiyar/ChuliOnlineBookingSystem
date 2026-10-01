@@ -1,0 +1,26 @@
+@model List<JainTithi>
+@{ ViewData["Title"] = "Jain Tithi"; }
+<div class="ct-admin-topbar"><div></div><a asp-action="Create" class="btn-ct-primary">+ New Entry</a></div>
+<div class="table-responsive-ct">
+    <table class="table-ct w-100">
+        <thead><tr><th>Date</th><th>Paksha</th><th>Tithi</th><th>Special Occasion</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var t in Model)
+            {
+                <tr>
+                    <td>@t.GregorianDate.ToString("dd MMM yyyy")</td>
+                    <td>@t.Paksha</td>
+                    <td>@t.TithiName</td>
+                    <td>@t.SpecialOccasion</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@t.Id" class="btn-link">Edit</a>
+                        <form asp-action="Delete" asp-route-id="@t.Id" method="post" onsubmit="return confirm('Delete?');" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button class="btn-link" style="border:none;background:none;color:var(--ct-danger);">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

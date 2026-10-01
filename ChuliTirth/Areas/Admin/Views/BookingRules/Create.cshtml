@@ -1,0 +1,21 @@
+@model BookingRule
+@{ ViewData["Title"] = "New Booking Rule"; }
+<form asp-action="Create" method="post" class="ct-card" style="padding:1.5rem;">
+    @Html.AntiForgeryToken()
+    <div class="row g-3">
+        <div class="col-md-4 ct-field"><label asp-for="Category"></label><input asp-for="Category" class="form-control" /></div>
+        <div class="col-md-4 ct-field"><label asp-for="DisplayOrder"></label><input asp-for="DisplayOrder" type="number" class="form-control" /></div>
+        <div class="col-md-4 form-check align-self-center"><input asp-for="IsActive" class="form-check-input" /> <label asp-for="IsActive" class="form-check-label"></label></div>
+
+        <div class="col-md-4 ct-field"><label asp-for="Title"></label><input asp-for="Title" class="form-control" /></div>
+        <div class="col-md-4 ct-field"><label asp-for="TitleGujarati"></label><input asp-for="TitleGujarati" class="form-control" /></div>
+        <div class="col-md-4 ct-field"><label asp-for="TitleHindi"></label><input asp-for="TitleHindi" class="form-control" /></div>
+
+        <div class="col-md-4 ct-field"><label asp-for="Description"></label><textarea asp-for="Description" class="form-control"></textarea></div>
+        <div class="col-md-4 ct-field"><label asp-for="DescriptionGujarati"></label><textarea asp-for="DescriptionGujarati" class="form-control"></textarea></div>
+        <div class="col-md-4 ct-field"><label asp-for="DescriptionHindi"></label><textarea asp-for="DescriptionHindi" class="form-control"></textarea></div>
+    </div>
+    <div class="ct-divider"></div>
+    <button type="submit" class="btn-ct-primary">Save</button>
+    <a asp-action="Index" class="btn-ct-secondary">Cancel</a>
+</form>

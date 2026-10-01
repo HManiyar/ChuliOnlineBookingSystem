@@ -1,0 +1,6 @@
+@model JainQuote
+@{ ViewData["Title"] = "New Quote"; }
+<form asp-action="Create" method="post" class="ct-card" style="padding:1.5rem;max-width:600px;">
+    @Html.AntiForgeryToken()
+    <partial name="_Form" />
+</form>

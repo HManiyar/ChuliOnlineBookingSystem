@@ -1,0 +1,6 @@
+@model Facility
+@{ ViewData["Title"] = "New Facility"; }
+<form asp-action="Create" method="post" class="ct-card" style="padding:1.5rem;">
+    @Html.AntiForgeryToken()
+    <partial name="_Form" />
+</form>

@@ -1,0 +1,116 @@
+using System.Globalization;
+
+namespace ChuliTirth.Helpers;
+
+// Static translations for hardcoded UI chrome (nav, buttons, footer labels) that isn't DB-driven.
+// DB content (rooms, facilities, quotes, etc.) is localized via LocalizationHelper instead.
+public static class UiText
+{
+    private static readonly Dictionary<string, (string En, string Gu, string Hi)> Map = new()
+    {
+        ["Home"] = ("Home", "હોમ", "होम"),
+        ["About"] = ("About", "અમારા વિશે", "हमारे बारे में"),
+        ["Rooms"] = ("Rooms", "રૂમ", "कमरे"),
+        ["Facilities"] = ("Facilities", "સુવિધાઓ", "सुविधाएं"),
+        ["Bhojanshala"] = ("Bhojanshala", "ભોજનશાળા", "भोजनशाला"),
+        ["JainTithi"] = ("Jain Tithi", "જૈન તિથિ", "जैन तिथि"),
+        ["Gallery"] = ("Gallery", "ગેલેરી", "गैलरी"),
+        ["BookingRules"] = ("Booking Rules", "બુકિંગ નિયમો", "बुकिंग नियम"),
+        ["Contact"] = ("Contact", "સંપર્ક", "संपर्क"),
+        ["MyBookings"] = ("My Bookings", "મારા બુકિંગ", "मेरी बुकिंग"),
+        ["Login"] = ("Login", "લોગિન", "लॉगिन"),
+        ["Logout"] = ("Logout", "લોગઆઉટ", "लॉगआउट"),
+        ["Admin"] = ("Admin", "એડમિન", "एडमिन"),
+        ["BookNow"] = ("Book Now", "હવે બુક કરો", "अभी बुक करें"),
+        ["QuickLinks"] = ("Quick Links", "ઝડપી લિંક્સ", "त्वरित लिंक"),
+        ["RoomBooking"] = ("Room Booking", "રૂમ બુકિંગ", "कमरा बुकिंग"),
+        ["Policies"] = ("Policies", "નીતિઓ", "नीतियां"),
+        ["PrivacyPolicy"] = ("Privacy Policy", "ગોપનીયતા નીતિ", "गोपनीयता नीति"),
+        ["HowToReach"] = ("How to Reach", "કેવી રીતે પહોંચવું", "कैसे पहुंचें"),
+        ["ContactHeading"] = ("Contact", "સંપર્ક", "संपर्क"),
+        ["ViewOnMaps"] = ("View on Google Maps", "ગૂગલ મેપ્સ પર જુઓ", "गूगल मैप्स पर देखें"),
+        ["CheckIn"] = ("Check-in", "ચેક-ઇન", "चेक-इन"),
+        ["CheckOut"] = ("Check-out", "ચેક-આઉટ", "चेक-आउट"),
+        ["Guests"] = ("Number of Guests", "મહેમાનોની સંખ્યા", "मेहमानों की संख्या"),
+        ["RoomsCount"] = ("Number of Rooms", "રૂમની સંખ્યા", "कमरों की संख्या"),
+        ["CheckAvailability"] = ("Check Availability", "ઉપલબ્ધતા તપાસો", "उपलब्धता जांचें"),
+        ["ViewRooms"] = ("View Rooms", "રૂમ જુઓ", "कमरे देखें"),
+        ["BookYourStay"] = ("Book Your Stay", "તમારો રોકાણ બુક કરો", "अपना प्रवास बुक करें"),
+        ["ViewFullGallery"] = ("View Full Gallery", "સંપૂર્ણ ગેલેરી જુઓ", "पूरी गैलरी देखें"),
+        ["ContactUs"] = ("Contact Us", "અમારો સંપર્ક કરો", "हमसे संपर्क करें"),
+        ["AllRightsReserved"] = ("All rights reserved.", "બધા હકો સુરક્ષિત છે.", "सर्वाधिकार सुरक्षित।"),
+
+        ["AccommodationEyebrow"] = ("Accommodation", "આવાસ", "आवास"),
+        ["OurRooms"] = ("Our Rooms", "અમારા રૂમ", "हमारे कमरे"),
+        ["Amenities"] = ("Amenities", "સુવિધાઓ", "सुविधाएं"),
+        ["OccupancyAndBeds"] = ("Occupancy & Beds", "ક્ષમતા અને પથારી", "क्षमता और बिस्तर"),
+        ["AttachedBathroom"] = ("Attached bathroom", "જોડાયેલ બાથરૂમ", "संलग्न बाथरूम"),
+        ["SharedBathroom"] = ("Shared bathroom", "સહિયારું બાથરૂમ", "साझा बाथरूम"),
+        ["AvailabilityNext30"] = ("Availability — Next 30 Days", "ઉપલબ્ધતા — આગામી 30 દિવસ", "उपलब्धता — अगले 30 दिन"),
+        ["Available"] = ("Available", "ઉપલબ્ધ", "उपलब्ध"),
+        ["PartiallyBooked"] = ("Partially booked", "આંશિક રીતે બુક થયેલ", "आंशिक रूप से बुक"),
+        ["FullyBooked"] = ("Fully booked", "સંપૂર્ણ બુક થયેલ", "पूरी तरह बुक"),
+        ["BookThisRoom"] = ("Book This Room", "આ રૂમ બુક કરો", "यह कमरा बुक करें"),
+        ["JainBhojanshala"] = ("Jain Bhojanshala", "જૈન ભોજનશાળા", "जैन भोजनशाला"),
+        ["BhojanshalaSubtitle"] = ("Pure Jain vegetarian meals served daily.", "દરરોજ શુદ્ધ જૈન શાકાહારી ભોજન પીરસવામાં આવે છે.", "प्रतिदिन शुद्ध जैन शाकाहारी भोजन परोसा जाता है।"),
+        ["Meal"] = ("Meal", "ભોજન", "भोजन"),
+        ["Timing"] = ("Timing", "સમય", "समय"),
+        ["Note"] = ("Note", "નોંધ", "टिप्पणी"),
+        ["BookingRulesAndPolicies"] = ("Booking Rules & Policies", "બુકિંગ નિયમો અને નીતિઓ", "बुकिंग नियम और नीतियां"),
+        ["Adults"] = ("Adults", "પુખ્ત", "वयस्क"),
+        ["SelectRoom"] = ("Select Room", "રૂમ પસંદ કરો", "कमरा चुनें"),
+        ["TrackYourBooking"] = ("Track Your Booking", "તમારું બુકિંગ ટ્રૅક કરો", "अपनी बुकिंग ट्रैक करें"),
+        ["Track"] = ("Track", "ટ્રૅક કરો", "ट्रैक करें"),
+        ["BookingNumber"] = ("Booking Number", "બુકિંગ નંબર", "बुकिंग नंबर"),
+        ["Status"] = ("Status", "સ્થિતિ", "स्थिति"),
+        ["Total"] = ("Total", "કુલ", "कुल"),
+        ["JainTithiCalendar"] = ("Jain Tithi Calendar", "જૈન તિથિ કૅલેન્ડર", "जैन तिथि कैलेंडर"),
+        ["Date"] = ("Date", "તારીખ", "तारीख"),
+        ["Paksha"] = ("Paksha", "પક્ષ", "पक्ष"),
+        ["Tithi"] = ("Tithi", "તિથિ", "तिथि"),
+        ["SpecialOccasion"] = ("Special Occasion", "ખાસ પ્રસંગ", "विशेष अवसर"),
+        ["Today"] = ("Today", "આજે", "आज"),
+        ["Room"] = ("Room", "રૂમ", "कमरा"),
+        ["Dates"] = ("Dates", "તારીખો", "तारीखें"),
+        ["Payment"] = ("Payment", "ચુકવણી", "भुगतान"),
+        ["Cancel"] = ("Cancel", "રદ કરો", "रद्द करें"),
+        ["AvailableRooms"] = ("Available Rooms", "ઉપલબ્ધ રૂમ", "उपलब्ध कमरे"),
+        ["GuestsShort"] = ("Guests", "મહેમાનો", "मेहमान"),
+        ["GuestInformation"] = ("Guest Information", "મહેમાન માહિતી", "अतिथि जानकारी"),
+        ["ContinueToSummary"] = ("Continue to Booking Summary", "બુકિંગ સારાંશ પર આગળ વધો", "बुकिंग सारांश पर जारी रखें"),
+        ["BookingSummary"] = ("Booking Summary", "બુકિંગ સારાંશ", "बुकिंग सारांश"),
+        ["RoomType"] = ("Room Type", "રૂમનો પ્રકાર", "कमरे का प्रकार"),
+        ["NumberOfNights"] = ("Number of Nights", "રાતની સંખ્યા", "रातों की संख्या"),
+        ["GuestName"] = ("Guest Name", "મહેમાનનું નામ", "अतिथि का नाम"),
+        ["Contact"] = ("Contact", "સંપર્ક", "संपर्क"),
+        ["RoomAmount"] = ("Room Amount", "રૂમની રકમ", "कमरे की राशि"),
+        ["AdditionalCharges"] = ("Additional Charges", "વધારાના શુલ્ક", "अतिरिक्त शुल्क"),
+        ["TotalAmount"] = ("Total Amount", "કુલ રકમ", "कुल राशि"),
+        ["ConfirmBooking"] = ("Confirm Booking", "બુકિંગ કન્ફર્મ કરો", "बुकिंग की पुष्टि करें"),
+        ["BookingConfirmed"] = ("Booking Confirmed", "બુકિંગ કન્ફર્મ થયું", "बुकिंग की पुष्टि हो गई"),
+        ["PrintBooking"] = ("Print Booking", "બુકિંગ પ્રિન્ટ કરો", "बुकिंग प्रिंट करें"),
+        ["EmailConfirmation"] = ("Email Confirmation", "ઇમેઇલ પુષ્ટિ", "ईमेल पुष्टि"),
+        ["ViewMyBookings"] = ("View My Bookings", "મારા બુકિંગ જુઓ", "मेरी बुकिंग देखें"),
+        ["CompletePayment"] = ("Complete Payment", "ચુકવણી પૂર્ણ કરો", "भुगतान पूरा करें"),
+        ["AmountDue"] = ("Amount Due", "બાકી રકમ", "देय राशि"),
+        ["RoomsHeader"] = ("Room(s)", "રૂમ(ઓ)", "कमरा/कमरे"),
+        ["SendMessage"] = ("Send Message", "સંદેશ મોકલો", "संदेश भेजें"),
+        ["CreateAccount"] = ("Create Account", "ખાતું બનાવો", "खाता बनाएं"),
+        ["Register"] = ("Register", "નોંધણી કરો", "पंजीकरण करें"),
+        ["AlreadyHaveAccount"] = ("Already have an account?", "પહેલેથી જ ખાતું છે?", "पहले से खाता है?"),
+        ["AccessDenied"] = ("Access Denied", "પ્રવેશ નામંજૂર", "पहुंच अस्वीकृत"),
+        ["NoPermission"] = ("You do not have permission to view this page.", "આ પૃષ્ઠ જોવાની તમને પરવાનગી નથી.", "आपको यह पेज देखने की अनुमति नहीं है।"),
+        ["GoHome"] = ("Go Home", "હોમ પર જાઓ", "होम पर जाएं"),
+    };
+
+    public static string T(CultureInfo culture, string key)
+    {
+        if (!Map.TryGetValue(key, out var v)) return key;
+        return culture.TwoLetterISOLanguageName switch
+        {
+            "gu" => v.Gu,
+            "hi" => v.Hi,
+            _ => v.En
+        };
+    }
+}

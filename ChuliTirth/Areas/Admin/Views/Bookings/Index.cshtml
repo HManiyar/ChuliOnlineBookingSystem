@@ -1,0 +1,42 @@
+@model List<Booking>
+@{
+    ViewData["Title"] = "Bookings";
+    var filter = ViewBag.Filter as BookingFilter ?? new BookingFilter();
+}
+<form method="get" class="ct-card mb-3" style="padding:1rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.75rem;align-items:end;">
+    <div class="ct-field"><label>Booking #</label><input name="bookingNumber" class="form-control" value="@filter.BookingNumber" /></div>
+    <div class="ct-field"><label>Guest Name</label><input name="guestName" class="form-control" value="@filter.GuestName" /></div>
+    <div class="ct-field"><label>Mobile</label><input name="mobile" class="form-control" value="@filter.Mobile" /></div>
+    <div class="ct-field">
+        <label>Status</label>
+        <select name="status" class="form-select">
+            <option value="">Any</option>
+            @foreach (var s in Enum.GetValues<BookingStatus>())
+            {
+                if (filter.Status == s) { <option value="@s" selected>@s</option> } else { <option value="@s">@s</option> }
+            }
+        </select>
+    </div>
+    <div><button type="submit" class="btn-ct-primary">Filter</button></div>
+</form>
+
+<div class="table-responsive-ct">
+    <table class="table-ct w-100">
+        <thead><tr><th>Booking #</th><th>Guest</th><th>Mobile</th><th>Dates</th><th>Status</th><th>Payment</th><th>Amount</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var b in Model)
+            {
+                <tr>
+                    <td>@b.BookingNumber</td>
+                    <td>@b.FirstName @b.LastName</td>
+                    <td>@b.Mobile</td>
+                    <td>@b.CheckIn.ToString("dd MMM") &rarr; @b.CheckOut.ToString("dd MMM yyyy")</td>
+                    <td><span class="ct-badge ct-badge-default">@b.Status</span></td>
+                    <td>@b.PaymentStatus</td>
+                    <td>₹@b.TotalAmount.ToString("N0")</td>
+                    <td><a asp-action="Details" asp-route-id="@b.Id">View</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

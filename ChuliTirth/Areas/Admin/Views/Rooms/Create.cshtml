@@ -1,0 +1,22 @@
+@model Room
+@{ ViewData["Title"] = "New Room"; }
+<form asp-action="Create" method="post" class="ct-card" style="padding:1.5rem;max-width:500px;">
+    @Html.AntiForgeryToken()
+    <div class="mb-3 ct-field">
+        <label>Room Type</label>
+        <select name="RoomTypeId" class="form-select">
+            @foreach (var rt in (List<RoomType>)ViewBag.RoomTypes)
+            {
+                <option value="@rt.Id">@rt.Name</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3 ct-field"><label asp-for="RoomNumber"></label><input asp-for="RoomNumber" class="form-control" /></div>
+    <div class="mb-3 ct-field"><label asp-for="Floor"></label><input asp-for="Floor" class="form-control" /></div>
+    <div class="mb-3 ct-field">
+        <label asp-for="Status"></label>
+        <select asp-for="Status" asp-items="Html.GetEnumSelectList<RoomStatus>()" class="form-select"></select>
+    </div>
+    <button type="submit" class="btn-ct-primary">Save</button>
+    <a asp-action="Index" class="btn-ct-secondary">Cancel</a>
+</form>

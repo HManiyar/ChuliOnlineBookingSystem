@@ -1,0 +1,21 @@
+@model Announcement
+<div class="row g-3">
+    <div class="col-md-4 ct-field"><label asp-for="Title"></label><input asp-for="Title" class="form-control" /></div>
+    <div class="col-md-4 ct-field"><label asp-for="TitleGujarati"></label><input asp-for="TitleGujarati" class="form-control" /></div>
+    <div class="col-md-4 ct-field"><label asp-for="TitleHindi"></label><input asp-for="TitleHindi" class="form-control" /></div>
+
+    <div class="col-md-4 ct-field"><label asp-for="Body"></label><textarea asp-for="Body" class="form-control"></textarea></div>
+    <div class="col-md-4 ct-field"><label asp-for="BodyGujarati"></label><textarea asp-for="BodyGujarati" class="form-control"></textarea></div>
+    <div class="col-md-4 ct-field"><label asp-for="BodyHindi"></label><textarea asp-for="BodyHindi" class="form-control"></textarea></div>
+
+    <div class="col-md-3 ct-field">
+        <label asp-for="Priority"></label>
+        <select asp-for="Priority" asp-items="Html.GetEnumSelectList<AnnouncementPriority>()" class="form-select"></select>
+    </div>
+    <div class="col-md-3 ct-field"><label asp-for="StartAtUtc">Start Date</label><input asp-for="StartAtUtc" type="date" class="form-control" /></div>
+    <div class="col-md-3 ct-field"><label asp-for="EndAtUtc">End Date</label><input asp-for="EndAtUtc" type="date" class="form-control" /></div>
+    <div class="col-md-3 form-check align-self-center"><input asp-for="IsActive" class="form-check-input" /> <label asp-for="IsActive" class="form-check-label"></label></div>
+</div>
+<div class="ct-divider"></div>
+<button type="submit" class="btn-ct-primary">Save</button>
+<a asp-action="Index" class="btn-ct-secondary">Cancel</a>

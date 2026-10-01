@@ -1,0 +1,24 @@
+@model List<BookingRule>
+@{ ViewData["Title"] = "Booking Rules"; }
+<div class="ct-admin-topbar"><div></div><a asp-action="Create" class="btn-ct-primary">+ New Rule</a></div>
+<div class="table-responsive-ct">
+    <table class="table-ct w-100">
+        <thead><tr><th>Category</th><th>Title</th><th>Description</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.Category</td>
+                    <td>@r.Title</td>
+                    <td>@r.Description</td>
+                    <td>
+                        <form asp-action="Delete" asp-route-id="@r.Id" method="post" onsubmit="return confirm('Delete?');">
+                            @Html.AntiForgeryToken()
+                            <button class="btn-link" style="border:none;background:none;color:var(--ct-danger);">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

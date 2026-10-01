@@ -1,0 +1,13 @@
+@model int
+@{
+    ViewData["Title"] = "Something Went Wrong";
+    Layout = "_Layout";
+}
+<section class="ct-section text-center">
+    <div class="container-ct">
+        <h1 style="font-size:4rem;">@Model</h1>
+        <h3>Something Went Wrong</h3>
+        <p class="ct-muted">An unexpected error occurred. Our team has been notified. Please try again shortly.</p>
+        <a asp-controller="Home" asp-action="Index" class="btn-ct-primary">Return Home</a>
+    </div>
+</section>

@@ -1,0 +1,32 @@
+@using System.Globalization
+@model List<JainQuote>
+@{
+    var culture = CultureInfo.CurrentUICulture;
+}
+<div class="ct-ticker-bar gold" id="quoteTicker">
+    <div class="container-ct ct-ticker-inner">
+        <div class="ct-ticker-viewport">
+            <div class="ct-ticker-track auto-scroll ct-quote-text" id="quoteTrack" style="--ct-ticker-duration: @(Math.Max(24, Model.Count * 9))s;">
+                @if (!Model.Any())
+                {
+                    <span class="ct-ticker-item">Ahimsa Parmo Dharma</span>
+                }
+                else
+                {
+                    @foreach (var q in Model.Concat(Model))
+                    {
+                        var text = LocalizationHelper.Pick(culture, q.TextEnglish, q.TextGujarati, q.TextHindi);
+                        <span class="ct-ticker-item">
+                            &#10070; @text
+                            @if (!string.IsNullOrWhiteSpace(q.Attribution))
+                            {
+                                <span>— @q.Attribution</span>
+                            }
+                        </span>
+                    }
+                }
+            </div>
+        </div>
+        <button type="button" class="ct-ticker-btn ct-ticker-pause" data-target="quoteTrack" aria-label="Pause ticker" aria-pressed="false">&#10073;&#10073;</button>
+    </div>
+</div>

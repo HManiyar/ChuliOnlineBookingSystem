@@ -1,0 +1,112 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
+@model PayViewModel
+@{
+    ViewData["Title"] = "Payment";
+    var b = Model.Booking;
+    string T(string key) => UiText.T(CultureInfo.CurrentUICulture, key);
+}
+<section class="ct-section">
+    <div class="container-ct" style="max-width:560px;">
+        <div class="ct-section-title" style="text-align:left;">
+            <h2>@T("CompletePayment")</h2>
+            <p class="ct-muted">Booking <strong>@b.BookingNumber</strong> is reserved for 15 minutes pending payment.</p>
+        </div>
+
+        <div id="payError" class="ct-alert ct-alert-danger" style="display:none;"></div>
+
+        <div class="ct-card" style="padding:1.5rem;">
+            <table class="table-ct w-100">
+                <tbody>
+                    <tr><th>@T("GuestName")</th><td>@b.FirstName @b.LastName</td></tr>
+                    <tr><th>@T("CheckIn") → @T("CheckOut")</th><td>@b.CheckIn.ToString("dd MMM yyyy") → @b.CheckOut.ToString("dd MMM yyyy")</td></tr>
+                    <tr class="fw-bold"><th>@T("AmountDue")</th><td>₹@((Model.AmountInPaise / 100m).ToString("N2"))</td></tr>
+                </tbody>
+            </table>
+
+            <form id="antiForgeryForm">@Html.AntiForgeryToken()</form>
+
+            <button id="payNowBtn" type="button" class="btn-ct-primary mt-3" style="width:100%;justify-content:center;">
+                <i class="bi bi-credit-card"></i> Pay ₹@((Model.AmountInPaise / 100m).ToString("N2")) Now
+            </button>
+            <p class="ct-muted mt-2" style="font-size:0.8rem;">You'll be asked for UPI, card or netbanking details in a secure Razorpay window. Nothing is charged until you complete that step.</p>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        (function () {
+            var payBtn = document.getElementById("payNowBtn");
+            var errorBox = document.getElementById("payError");
+            var token = document.querySelector('#antiForgeryForm input[name="__RequestVerificationToken"]').value;
+
+            function showError(msg) {
+                errorBox.textContent = msg;
+                errorBox.style.display = "block";
+            }
+
+            function openCheckout() {
+                errorBox.style.display = "none";
+                var options = {
+                    key: "@Model.KeyId",
+                    order_id: "@Model.GatewayOrderId",
+                    amount: "@Model.AmountInPaise",
+                    currency: "INR",
+                    name: "Chuli Tirth Dharamshala",
+                    description: "Booking @b.BookingNumber",
+                    prefill: {
+                        name: "@b.FirstName @b.LastName",
+                        email: "@b.Email",
+                        contact: "@b.Mobile"
+                    },
+                    theme: { color: "#7a1f2b" },
+                    handler: function (response) {
+                        payBtn.disabled = true;
+                        payBtn.textContent = "Verifying payment…";
+
+                        var body = new URLSearchParams();
+                        body.set("razorpay_order_id", response.razorpay_order_id);
+                        body.set("razorpay_payment_id", response.razorpay_payment_id);
+                        body.set("razorpay_signature", response.razorpay_signature);
+                        body.set("__RequestVerificationToken", token);
+
+                        fetch("@Url.Action("PaymentCallback", "Booking")", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                            body: body.toString()
+                        })
+                            .then(function (r) { return r.json(); })
+                            .then(function (data) {
+                                if (data.success && data.redirectUrl) {
+                                    window.location.href = data.redirectUrl;
+                                } else {
+                                    payBtn.disabled = false;
+                                    payBtn.textContent = "Pay ₹@((Model.AmountInPaise / 100m).ToString("N2")) Now";
+                                    showError(data.message || "Payment could not be verified. If an amount was deducted, it will be refunded automatically — please contact us with your booking number.");
+                                }
+                            })
+                            .catch(function () {
+                                payBtn.disabled = false;
+                                payBtn.textContent = "Pay ₹@((Model.AmountInPaise / 100m).ToString("N2")) Now";
+                                showError("Could not reach the server to confirm payment. Please check your connection and try again.");
+                            });
+                    },
+                    modal: {
+                        ondismiss: function () {
+                            showError("Payment window closed before completing. Click Pay Now to try again.");
+                        }
+                    }
+                };
+                var rzp = new Razorpay(options);
+                rzp.on("payment.failed", function (resp) {
+                    showError("Payment failed: " + (resp.error && resp.error.description ? resp.error.description : "please try again."));
+                });
+                rzp.open();
+            }
+
+            payBtn.addEventListener("click", openCheckout);
+        })();
+    </script>
+}

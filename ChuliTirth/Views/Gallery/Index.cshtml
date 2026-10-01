@@ -1,0 +1,24 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
+@model List<GalleryCategory>
+@{
+    ViewData["Title"] = "Gallery";
+    string T(string key) => UiText.T(CultureInfo.CurrentUICulture, key);
+}
+<section class="ct-section">
+    <div class="container-ct">
+        <div class="ct-section-title"><h2>@T("Gallery")</h2></div>
+        @foreach (var cat in Model.Where(c => c.Images.Any()))
+        {
+            <h4 class="mt-4">@cat.Name</h4>
+            <div class="ct-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px,1fr));">
+                @foreach (var img in cat.Images)
+                {
+                    <a href="@img.ImageUrl" target="_blank" rel="noopener" class="ct-gallery-img-link">
+                        <img src="@img.ImageUrl" alt="@img.Caption" loading="lazy" style="width:100%;height:170px;object-fit:cover;" />
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</section>

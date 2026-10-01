@@ -1,0 +1,29 @@
+@model List<ContactMessage>
+@{ ViewData["Title"] = "Contact Messages"; }
+<div class="table-responsive-ct">
+    <table class="table-ct w-100">
+        <thead><tr><th>Received</th><th>Name</th><th>Contact</th><th>Subject</th><th>Message</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var m in Model)
+            {
+                <tr>
+                    <td>@m.CreatedAtUtc.ToIst().ToString("dd MMM yyyy HH:mm")</td>
+                    <td>@m.Name</td>
+                    <td>@m.Email <br />@m.Mobile</td>
+                    <td>@m.Subject</td>
+                    <td>@m.Message</td>
+                    <td><span class="ct-badge @(m.IsRead ? "ct-badge-confirmed" : "ct-badge-pending")">@(m.IsRead ? "Read" : "New")</span></td>
+                    <td>
+                        @if (!m.IsRead)
+                        {
+                            <form asp-action="MarkRead" asp-route-id="@m.Id" method="post">
+                                @Html.AntiForgeryToken()
+                                <button class="btn-ct-secondary" style="padding:0.3rem 0.8rem;font-size:0.8rem;">Mark Read</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

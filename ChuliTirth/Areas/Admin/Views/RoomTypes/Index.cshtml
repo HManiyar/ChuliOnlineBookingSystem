@@ -1,0 +1,36 @@
+@model List<RoomType>
+@{
+    ViewData["Title"] = "Room Types";
+}
+<div class="ct-admin-topbar">
+    <div></div>
+    <a asp-action="Create" class="btn-ct-primary">+ New Room Type</a>
+</div>
+<div class="table-responsive-ct">
+    <table class="table-ct w-100">
+        <thead><tr><th>Name</th><th>Capacity</th><th>Beds</th><th>Price</th><th>AC</th><th>Active</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var rt in Model)
+            {
+                <tr>
+                    <td>@rt.Name</td>
+                    <td>@rt.Capacity</td>
+                    <td>@rt.BedCount</td>
+                    <td>₹@rt.Price.ToString("N0")</td>
+                    <td>@(rt.IsAC ? "Yes" : "No")</td>
+                    <td><span class="ct-badge @(rt.IsActive ? "ct-badge-confirmed" : "ct-badge-cancelled")">@(rt.IsActive ? "Active" : "Inactive")</span></td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@rt.Id">Edit</a>
+                        @if (rt.IsActive)
+                        {
+                            <form asp-action="Deactivate" asp-route-id="@rt.Id" method="post" class="d-inline" onsubmit="return confirm('Deactivate this room type?');">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn-link" style="border:none;background:none;color:var(--ct-danger);">Deactivate</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

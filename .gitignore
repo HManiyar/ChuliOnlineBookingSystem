@@ -1,0 +1,19 @@
+# Build outputs
+bin/
+obj/
+
+# Logs
+ChuliTirth/Logs/
+
+# IDE / editor
+.vs/
+.vscode/
+*.user
+*.suo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Local tooling (not project source)
+.claude/

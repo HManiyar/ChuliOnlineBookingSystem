@@ -1,0 +1,15 @@
+@model Facility
+<div class="row g-3">
+    <div class="col-md-4 ct-field"><label asp-for="Name"></label><input asp-for="Name" class="form-control" /></div>
+    <div class="col-md-4 ct-field"><label asp-for="NameGujarati"></label><input asp-for="NameGujarati" class="form-control" /></div>
+    <div class="col-md-4 ct-field"><label asp-for="NameHindi"></label><input asp-for="NameHindi" class="form-control" /></div>
+    <div class="col-md-4 ct-field"><label asp-for="Description"></label><textarea asp-for="Description" class="form-control"></textarea></div>
+    <div class="col-md-4 ct-field"><label asp-for="DescriptionGujarati"></label><textarea asp-for="DescriptionGujarati" class="form-control"></textarea></div>
+    <div class="col-md-4 ct-field"><label asp-for="DescriptionHindi"></label><textarea asp-for="DescriptionHindi" class="form-control"></textarea></div>
+    <div class="col-md-4 ct-field"><label asp-for="Icon">Icon (Bootstrap Icons class, e.g. bi-wifi)</label><input asp-for="Icon" class="form-control" /></div>
+    <div class="col-md-4 ct-field"><label asp-for="DisplayOrder"></label><input asp-for="DisplayOrder" type="number" class="form-control" /></div>
+    <div class="col-md-4 form-check align-self-center"><input asp-for="IsActive" class="form-check-input" /> <label asp-for="IsActive" class="form-check-label"></label></div>
+</div>
+<div class="ct-divider"></div>
+<button type="submit" class="btn-ct-primary">Save</button>
+<a asp-action="Index" class="btn-ct-secondary">Cancel</a>

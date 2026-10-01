@@ -1,0 +1,66 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
+@model GuestDetailsViewModel
+@{
+    ViewData["Title"] = "Booking Summary";
+    string T(string key) => UiText.T(CultureInfo.CurrentUICulture, key);
+}
+<section class="ct-section">
+    <div class="container-ct" style="max-width:700px;">
+        <div class="ct-section-title" style="text-align:left;">
+            <h2>@T("BookingSummary")</h2>
+        </div>
+
+        <div asp-validation-summary="All" class="ct-alert ct-alert-danger"></div>
+
+        <div class="ct-card" style="padding:1.5rem;">
+            <table class="table-ct w-100">
+                <tbody>
+                    <tr><th>@T("RoomType")</th><td>@Model.RoomType?.Name</td></tr>
+                    <tr><th>@T("Rooms")</th><td>@Model.RoomsNeeded</td></tr>
+                    <tr><th>@T("CheckIn")</th><td>@Model.CheckIn.ToString("dd MMM yyyy")</td></tr>
+                    <tr><th>@T("CheckOut")</th><td>@Model.CheckOut.ToString("dd MMM yyyy")</td></tr>
+                    <tr><th>@T("NumberOfNights")</th><td>@Model.Nights</td></tr>
+                    <tr><th>@T("GuestsShort")</th><td>@Model.Adults adult(s), @Model.Children child(ren)</td></tr>
+                    <tr><th>@T("GuestName")</th><td>@Model.FirstName @Model.LastName</td></tr>
+                    <tr><th>@T("Contact")</th><td>@Model.Mobile &middot; @Model.Email</td></tr>
+                    <tr><th>@T("RoomAmount")</th><td>₹@Model.EstimatedTotal.ToString("N2")</td></tr>
+                    <tr><th>@T("AdditionalCharges")</th><td>₹0.00</td></tr>
+                    <tr class="fw-bold"><th>@T("TotalAmount")</th><td>₹@Model.EstimatedTotal.ToString("N2")</td></tr>
+                </tbody>
+            </table>
+
+            <form asp-controller="Booking" asp-action="Confirm" method="post" class="mt-3">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="RoomTypeId" />
+                <input type="hidden" asp-for="CheckIn" />
+                <input type="hidden" asp-for="CheckOut" />
+                <input type="hidden" asp-for="RoomsNeeded" />
+                <input type="hidden" asp-for="Adults" />
+                <input type="hidden" asp-for="Children" />
+                <input type="hidden" asp-for="FirstName" />
+                <input type="hidden" asp-for="LastName" />
+                <input type="hidden" asp-for="Mobile" />
+                <input type="hidden" asp-for="Email" />
+                <input type="hidden" asp-for="Address" />
+                <input type="hidden" asp-for="City" />
+                <input type="hidden" asp-for="State" />
+                <input type="hidden" asp-for="Country" />
+                <input type="hidden" asp-for="SpecialRequirements" />
+                @* ID collection disabled for now — see GuestDetails.cshtml. *@
+                @* <input type="hidden" asp-for="IdType" /> *@
+                @* <input type="hidden" asp-for="IdNumber" /> *@
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" asp-for="AcceptedRules" id="acceptRules" />
+                    <label class="form-check-label" for="acceptRules">
+                        I agree to the <a asp-controller="BookingRules" asp-action="Index" target="_blank">Dharamshala rules and booking policies</a>.
+                    </label>
+                    <div><span asp-validation-for="AcceptedRules" class="text-danger"></span></div>
+                </div>
+
+                <button type="submit" class="btn-ct-primary">@T("ConfirmBooking")</button>
+            </form>
+        </div>
+    </div>
+</section>

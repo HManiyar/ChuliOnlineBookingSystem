@@ -1,0 +1,32 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
+@model List<BhojanshalaTiming>
+@{
+    ViewData["Title"] = "Bhojanshala";
+    var culture = CultureInfo.CurrentUICulture;
+    string T(string key) => UiText.T(culture, key);
+}
+<section class="ct-section">
+    <div class="container-ct" style="max-width:700px;">
+        <div class="ct-section-title"><h2>@T("JainBhojanshala")</h2><p class="ct-muted">@T("BhojanshalaSubtitle")</p></div>
+        <div class="table-responsive-ct">
+            <table class="table-ct w-100">
+                <thead><tr><th>@T("Meal")</th><th>@T("Timing")</th><th>@T("Note")</th></tr></thead>
+                <tbody>
+                    @foreach (var t in Model)
+                    {
+                        var name = LocalizationHelper.Pick(culture, t.MealName, t.MealNameGujarati, t.MealNameHindi);
+                        <tr>
+                            <td>@name</td>
+                            <td>@t.StartTime.ToString("h:mm tt") &ndash; @t.EndTime.ToString("h:mm tt")</td>
+                            <td class="ct-muted">@t.Note</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="ct-alert ct-alert-info mt-3">
+            <i class="bi bi-info-circle"></i> Timings may vary according to Tithi, season, sunrise/sunset, or management decisions.
+        </div>
+    </div>
+</section>

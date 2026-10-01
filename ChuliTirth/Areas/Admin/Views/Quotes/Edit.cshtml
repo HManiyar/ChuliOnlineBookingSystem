@@ -1,0 +1,7 @@
+@model JainQuote
+@{ ViewData["Title"] = "Edit Quote"; }
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="ct-card" style="padding:1.5rem;max-width:600px;">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <partial name="_Form" />
+</form>

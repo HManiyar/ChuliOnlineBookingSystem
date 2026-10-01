@@ -1,0 +1,32 @@
+@model List<BhojanshalaTiming>
+@{ ViewData["Title"] = "Bhojanshala Timings"; }
+<div class="ct-admin-topbar"><div></div><a asp-action="Create" class="btn-ct-primary">+ New Timing</a></div>
+<div class="table-responsive-ct">
+    <table class="table-ct w-100">
+        <thead><tr><th>Meal</th><th>Start</th><th>End</th><th>Note</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var t in Model)
+            {
+                var formId = $"tform-{t.Id}";
+                <tr>
+                    <td>@t.MealName</td>
+                    <td><input type="time" name="StartTime" form="@formId" value="@t.StartTime.ToString("HH:mm")" class="form-control" /></td>
+                    <td><input type="time" name="EndTime" form="@formId" value="@t.EndTime.ToString("HH:mm")" class="form-control" /></td>
+                    <td><input type="text" name="Note" form="@formId" value="@t.Note" class="form-control" /></td>
+                    <td>
+                        <form id="@formId" asp-action="Edit" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="Id" value="@t.Id" />
+                            <input type="hidden" name="MealName" value="@t.MealName" />
+                            <input type="hidden" name="MealNameGujarati" value="@t.MealNameGujarati" />
+                            <input type="hidden" name="MealNameHindi" value="@t.MealNameHindi" />
+                            <input type="hidden" name="DisplayOrder" value="@t.DisplayOrder" />
+                            <input type="hidden" name="IsActive" value="true" />
+                        </form>
+                        <button type="submit" form="@formId" class="btn-ct-secondary" style="padding:0.3rem 0.8rem;font-size:0.8rem;">Save</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

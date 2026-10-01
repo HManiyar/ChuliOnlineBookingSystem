@@ -1,0 +1,42 @@
+@model List<Room>
+@{ ViewData["Title"] = "Room Inventory"; }
+<div class="ct-admin-topbar">
+    <div></div>
+    <a asp-action="Create" class="btn-ct-primary">+ New Room</a>
+</div>
+<div class="table-responsive-ct">
+    <table class="table-ct w-100">
+        <thead><tr><th>Room #</th><th>Type</th><th>Floor</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.RoomNumber</td>
+                    <td>@r.RoomType.Name</td>
+                    <td>@r.Floor</td>
+                    <td><span class="ct-badge ct-badge-default">@r.Status</span></td>
+                    <td>
+                        <form asp-action="SetStatus" method="post" class="d-flex gap-2">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@r.Id" />
+                            <select name="status" class="form-select" style="width:auto;">
+                                @foreach (var s in Enum.GetValues<RoomStatus>())
+                                {
+                                    if (s == r.Status)
+                                    {
+                                        <option value="@s" selected>@s</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@s">@s</option>
+                                    }
+                                }
+                            </select>
+                            <button type="submit" class="btn-ct-secondary" style="padding:0.3rem 0.8rem;font-size:0.8rem;">Update</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

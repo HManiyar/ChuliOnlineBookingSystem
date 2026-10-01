@@ -1,0 +1,64 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
+@model GuestDetailsViewModel
+@{
+    ViewData["Title"] = "Guest Information";
+    string T(string key) => UiText.T(CultureInfo.CurrentUICulture, key);
+}
+<section class="ct-section">
+    <div class="container-ct" style="max-width:760px;">
+        <div class="ct-section-title" style="text-align:left;">
+            <h2>@T("GuestInformation")</h2>
+            <p class="ct-muted">@Model.RoomType?.Name &nbsp;·&nbsp; @Model.CheckIn.ToString("dd MMM yyyy") &rarr; @Model.CheckOut.ToString("dd MMM yyyy") &nbsp;·&nbsp; @Model.Nights night(s) &nbsp;·&nbsp; @Model.RoomsNeeded room(s)</p>
+        </div>
+
+        <div asp-validation-summary="All" class="ct-alert ct-alert-danger"></div>
+
+        <form asp-controller="Booking" asp-action="GuestDetails" method="post" class="ct-card" style="padding:1.5rem;">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="RoomTypeId" />
+            <input type="hidden" asp-for="CheckIn" />
+            <input type="hidden" asp-for="CheckOut" />
+            <input type="hidden" asp-for="RoomsNeeded" />
+
+            <div class="row g-3">
+                <div class="col-md-6 ct-field"><label asp-for="FirstName"></label><input asp-for="FirstName" class="form-control" /><span asp-validation-for="FirstName" class="text-danger"></span></div>
+                <div class="col-md-6 ct-field"><label asp-for="LastName"></label><input asp-for="LastName" class="form-control" /><span asp-validation-for="LastName" class="text-danger"></span></div>
+                <div class="col-md-6 ct-field"><label asp-for="Mobile"></label><input asp-for="Mobile" class="form-control" /><span asp-validation-for="Mobile" class="text-danger"></span></div>
+                <div class="col-md-6 ct-field"><label asp-for="Email"></label><input asp-for="Email" class="form-control" /><span asp-validation-for="Email" class="text-danger"></span></div>
+                <div class="col-md-12 ct-field"><label asp-for="Address"></label><input asp-for="Address" class="form-control" /></div>
+                <div class="col-md-4 ct-field"><label asp-for="City"></label><input asp-for="City" class="form-control" /></div>
+                <div class="col-md-4 ct-field"><label asp-for="State"></label><input asp-for="State" class="form-control" /></div>
+                <div class="col-md-4 ct-field"><label asp-for="Country"></label><input asp-for="Country" class="form-control" /></div>
+                <div class="col-md-3 ct-field">
+                    <label asp-for="Adults"></label>
+                    <input asp-for="Adults" type="number" min="@Model.RoomsNeeded" class="form-control" title="At least @Model.RoomsNeeded (one per room booked)" />
+                    <span asp-validation-for="Adults" class="text-danger"></span>
+                </div>
+                <div class="col-md-3 ct-field"><label asp-for="Children"></label><input asp-for="Children" type="number" min="0" class="form-control" /></div>
+                @* ID collection (Aadhaar/PAN/etc.) disabled for now — re-enable by uncommenting
+                   this block and the matching hidden fields in Summary.cshtml. *@
+                @*
+                <div class="col-md-3 ct-field"><label asp-for="IdType"></label>
+                    <select asp-for="IdType" class="form-select">
+                        <option value="">Not provided</option>
+                        <option>Aadhaar</option>
+                        <option>Passport</option>
+                        <option>Driving License</option>
+                        <option>Voter ID</option>
+                    </select>
+                </div>
+                <div class="col-md-3 ct-field"><label asp-for="IdNumber"></label><input asp-for="IdNumber" class="form-control" /></div>
+                *@
+                <div class="col-md-12 ct-field"><label asp-for="SpecialRequirements"></label><textarea asp-for="SpecialRequirements" class="form-control" rows="2"></textarea></div>
+            </div>
+
+            <div class="ct-divider"></div>
+            <button type="submit" class="btn-ct-primary">@T("ContinueToSummary")</button>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

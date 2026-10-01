@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420">
+  <rect width="640" height="420" fill="#f3ecdd"/>
+  <rect x="0" y="300" width="640" height="120" fill="#e4d9c3"/>
+  <circle cx="320" cy="170" r="70" fill="#e8c874"/>
+  <path d="M320 120 L360 190 L280 190 Z" fill="#b8862e"/>
+  <text x="320" y="380" font-family="sans-serif" font-size="20" fill="#7a1f2b" text-anchor="middle">Sample Room Image</text>
+</svg>

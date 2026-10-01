@@ -1,0 +1,28 @@
+@model Dictionary<string, string?>
+@{
+    ViewData["Title"] = "Site Settings";
+    var labels = new Dictionary<string, string>
+    {
+        ["DharamshalaName"] = "Dharamshala Name",
+        ["Address"] = "Address",
+        ["Phone"] = "Phone",
+        ["Email"] = "Email",
+        ["WhatsApp"] = "WhatsApp Number",
+        ["GoogleMapsUrl"] = "Google Maps URL",
+        ["CheckInTime"] = "Check-in Time",
+        ["CheckOutTime"] = "Check-out Time",
+        ["HomepageHeroText"] = "Homepage Hero Text",
+        ["FooterText"] = "Footer Text",
+    };
+}
+<form asp-action="Index" method="post" class="ct-card" style="padding:1.5rem;max-width:700px;">
+    @Html.AntiForgeryToken()
+    @foreach (var (key, label) in labels)
+    {
+        <div class="mb-3 ct-field">
+            <label>@label</label>
+            <input type="text" name="values[@key]" class="form-control" value="@Model.GetValueOrDefault(key)" />
+        </div>
+    }
+    <button type="submit" class="btn-ct-primary">Save Settings</button>
+</form>

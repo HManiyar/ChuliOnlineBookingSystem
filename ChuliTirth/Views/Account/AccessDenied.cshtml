@@ -1,0 +1,13 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
+@{
+    ViewData["Title"] = "Access Denied";
+    string T(string key) => UiText.T(CultureInfo.CurrentUICulture, key);
+}
+<section class="ct-section">
+    <div class="container-ct text-center">
+        <h2>@T("AccessDenied")</h2>
+        <p class="ct-muted">@T("NoPermission")</p>
+        <a asp-controller="Home" asp-action="Index" class="btn-ct-primary">@T("GoHome")</a>
+    </div>
+</section>

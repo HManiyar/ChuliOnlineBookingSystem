@@ -1,0 +1,91 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
+@model RoomType
+@{
+    ViewData["Title"] = Model.Name;
+    var calendar = ViewBag.Calendar as Dictionary<DateOnly, string> ?? new();
+    var today = DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5.5));
+    var cultureInfo = CultureInfo.CurrentUICulture;
+    string T(string key) => UiText.T(cultureInfo, key);
+}
+<section class="ct-section">
+    <div class="container-ct" style="display:grid;grid-template-columns:2fr 1fr;gap:2rem;align-items:start;">
+        <div>
+            <div class="ct-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-bottom:1.5rem;">
+                @if (Model.Images.Any())
+                {
+                    @foreach (var img in Model.Images.OrderBy(i => i.DisplayOrder))
+                    {
+                        <img src="@img.ImageUrl" alt="@(img.AltText ?? Model.Name)" loading="lazy" style="width:100%;border-radius:10px;height:220px;object-fit:cover;" />
+                    }
+                }
+                else
+                {
+                    <img src="/images/rooms/placeholder-room.svg" alt="@Model.Name" style="width:100%;border-radius:10px;" />
+                }
+            </div>
+
+            <h1>@Model.Name</h1>
+            <p>@Model.Description</p>
+
+            <h5 class="mt-4">@T("Amenities")</h5>
+            <div class="amenities">
+                @foreach (var ra in Model.RoomAmenities)
+                {
+                    <span class="ct-amenity-pill"><i class="bi @(ra.Amenity.Icon ?? "bi-check")"></i> @ra.Amenity.Name</span>
+                }
+            </div>
+
+            <h5 class="mt-4">@T("OccupancyAndBeds")</h5>
+            <p><i class="bi bi-people"></i> Up to @Model.Capacity guests &nbsp;·&nbsp; <i class="bi bi-door-closed"></i> @Model.BedCount beds &nbsp;·&nbsp;
+                <i class="bi bi-droplet"></i> @(Model.HasAttachedBathroom ? T("AttachedBathroom") : T("SharedBathroom"))</p>
+
+            <h5 class="mt-4">@T("AvailabilityNext30")</h5>
+            <div class="ct-calendar mb-2">
+                @foreach (var kv in calendar)
+                {
+                    <div class="day @kv.Value">
+                        <div class="num">@kv.Key.Day</div>
+                        <div>@kv.Key.ToString("MMM")</div>
+                    </div>
+                }
+            </div>
+            <div class="d-flex gap-3 ct-muted" style="font-size:0.8rem;">
+                <span><span class="ct-badge ct-badge-confirmed">&nbsp;</span> @T("Available")</span>
+                <span><span class="ct-badge ct-badge-pending">&nbsp;</span> @T("PartiallyBooked")</span>
+                <span><span class="ct-badge ct-badge-cancelled">&nbsp;</span> @T("FullyBooked")</span>
+            </div>
+
+            <p class="ct-muted mt-4"><i class="bi bi-info-circle"></i> Please review our <a asp-controller="BookingRules" asp-action="Index">Booking Rules</a> before confirming your stay.</p>
+        </div>
+
+        <div class="ct-card" style="padding:1.5rem;position:sticky;top:90px;">
+            <div class="price mb-2">₹@Model.Price.ToString("N0") <small class="ct-muted">/ night</small></div>
+            <form asp-controller="Booking" asp-action="GuestDetails" method="get" data-booking-search>
+                <input type="hidden" name="roomTypeId" value="@Model.Id" />
+                <div class="mb-2 ct-field">
+                    <label for="d-checkin">@T("CheckIn")</label>
+                    <input type="date" class="form-control ct-checkin-input" id="d-checkin" name="checkIn" min="@today.ToString("yyyy-MM-dd")" data-max-nights="@AppSettings.Value.MaxBookingNights" required />
+                </div>
+                <div class="mb-2 ct-field">
+                    <label for="d-checkout">@T("CheckOut")</label>
+                    <input type="date" class="form-control ct-checkout-input" id="d-checkout" name="checkOut" min="@today.AddDays(1).ToString("yyyy-MM-dd")" required />
+                </div>
+                <div class="mb-2 ct-field">
+                    <label for="d-rooms">@T("RoomsCount")</label>
+                    <input type="number" min="1" max="10" class="form-control ct-rooms-input" id="d-rooms" name="roomsNeeded" value="1" />
+                </div>
+                <div class="mb-3 ct-field">
+                    <label for="d-adults">@T("Adults")</label>
+                    <input type="number" min="1" max="30" class="form-control ct-adults-input" id="d-adults" name="adults" value="1" />
+                    <span class="text-danger ct-adults-rooms-error" style="display:none;font-size:0.8rem;">Adults must be at least the number of rooms.</span>
+                </div>
+                <button type="submit" class="btn-ct-primary w-100 justify-content-center"><i class="bi bi-calendar-check"></i> @T("BookThisRoom")</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<div class="sticky-book-btn">
+    <a href="#" onclick="document.querySelector('.ct-card form').scrollIntoView({behavior:'smooth'});return false;" class="btn-ct-primary">@T("BookThisRoom") — ₹@Model.Price.ToString("N0")/night</a>
+</div>

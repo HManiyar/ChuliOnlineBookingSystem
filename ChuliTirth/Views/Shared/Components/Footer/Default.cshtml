@@ -1,0 +1,42 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
+@model Dictionary<string, string?>
+@{
+    string S(string key, string fallback) => Model.TryGetValue(key, out var v) && !string.IsNullOrWhiteSpace(v) ? v! : fallback;
+    var cultureInfo = CultureInfo.CurrentUICulture;
+    string T(string key) => UiText.T(cultureInfo, key);
+}
+<footer class="ct-footer">
+    <div class="container-ct ct-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px,1fr));">
+        <div>
+            <h5>@S("DharamshalaName", "Chuli Tirth Dharamshala")</h5>
+            <p>@S("FooterText", "Serving pilgrims with Jain hospitality and Sadharmik Bhakti.")</p>
+        </div>
+        <div>
+            <h5>@T("QuickLinks")</h5>
+            <p><a asp-controller="Rooms" asp-action="Index">@T("RoomBooking")</a></p>
+            <p><a asp-controller="JainTithi" asp-action="Index">@T("JainTithi")</a></p>
+            <p><a asp-controller="Facilities" asp-action="Index">@T("Facilities")</a></p>
+            <p><a asp-controller="Contact" asp-action="Index">@T("Contact")</a></p>
+        </div>
+        <div>
+            <h5>@T("Policies")</h5>
+            <p><a asp-controller="BookingRules" asp-action="Index">@T("BookingRules")</a></p>
+            <p><a asp-controller="Home" asp-action="Privacy">@T("PrivacyPolicy")</a></p>
+            <p><a asp-controller="HowToReach" asp-action="Index">@T("HowToReach")</a></p>
+        </div>
+        <div>
+            <h5>@T("ContactHeading")</h5>
+            <p><i class="bi bi-geo-alt"></i> @S("Address", "Chuli Tirth, Gujarat, India")</p>
+            <p><i class="bi bi-telephone"></i> @S("Phone", "+91 99999 00000")</p>
+            <p><i class="bi bi-envelope"></i> @S("Email", "info@chulitirth.local")</p>
+            @{
+                var mapsUrl = S("GoogleMapsUrl", "https://maps.google.com");
+            }
+            <p><a href="@mapsUrl" target="_blank" rel="noopener">@T("ViewOnMaps")</a></p>
+        </div>
+    </div>
+    <div class="container-ct bottom">
+        &copy; @DateTime.UtcNow.Year @S("DharamshalaName", "Chuli Tirth Dharamshala"). @T("AllRightsReserved") <span class="ct-muted">(Sample content — configurable in Admin)</span>
+    </div>
+</footer>

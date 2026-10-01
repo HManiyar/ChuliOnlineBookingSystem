@@ -1,0 +1,40 @@
+@using System.Globalization
+@model List<JainTithi>
+@{
+    var culture = CultureInfo.CurrentUICulture;
+    string T(string key) => key switch
+    {
+        "today" => LocalizationHelper.Pick(culture, "Today's Tithi", "આજની તિથિ", "आज की तिथि"),
+        "tomorrow" => LocalizationHelper.Pick(culture, "Tomorrow", "આવતીકાલ", "कल"),
+        _ => key
+    };
+}
+<div class="ct-ticker-bar" id="tithiTicker">
+    <div class="container-ct ct-ticker-inner">
+        <div class="ct-ticker-viewport">
+            <div class="ct-ticker-track auto-scroll" id="tithiTrack" style="--ct-ticker-duration: @(Math.Max(24, Model.Count * 7))s;">
+                @if (!Model.Any())
+                {
+                    <span class="ct-ticker-item">@T("today"): <span class="ct-muted">Sample data not seeded yet</span></span>
+                }
+                else
+                {
+                    @foreach (var t in Model.Concat(Model))
+                    {
+                        var label = t.GregorianDate == DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5.5)) ? T("today") : t.GregorianDate.ToString("dd MMM");
+                        var tithiName = LocalizationHelper.Pick(culture, t.TithiName, t.TithiNameGujarati, t.TithiNameHindi);
+                        var paksha = LocalizationHelper.Pick(culture, t.Paksha ?? "", t.PakshaGujarati, t.PakshaHindi);
+                        <span class="ct-ticker-item">
+                            <strong>@label</strong> — @paksha @tithiName
+                            @if (!string.IsNullOrWhiteSpace(t.SpecialOccasion))
+                            {
+                                <em>· @LocalizationHelper.Pick(culture, t.SpecialOccasion, t.SpecialOccasionGujarati, t.SpecialOccasionHindi)</em>
+                            }
+                        </span>
+                    }
+                }
+            </div>
+        </div>
+        <button type="button" class="ct-ticker-btn ct-ticker-pause" data-target="tithiTrack" aria-label="Pause ticker" aria-pressed="false">&#10073;&#10073;</button>
+    </div>
+</div>

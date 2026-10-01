@@ -1,0 +1,28 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
+@model List<Facility>
+@{
+    ViewData["Title"] = "Facilities";
+    var culture = CultureInfo.CurrentUICulture;
+    string T(string key) => UiText.T(culture, key);
+}
+<section class="ct-section">
+    <div class="container-ct">
+        <div class="ct-section-title"><h2>@T("Facilities")</h2></div>
+        <div class="ct-grid" style="grid-template-columns: repeat(auto-fill, minmax(160px,1fr));">
+            @foreach (var f in Model)
+            {
+                var name = LocalizationHelper.Pick(culture, f.Name, f.NameGujarati, f.NameHindi);
+                var desc = LocalizationHelper.Pick(culture, f.Description ?? "", f.DescriptionGujarati, f.DescriptionHindi);
+                <div class="ct-card ct-facility">
+                    <i class="bi @(string.IsNullOrWhiteSpace(f.Icon) ? "bi-check-circle" : f.Icon)"></i>
+                    <div class="label">@name</div>
+                    @if (!string.IsNullOrWhiteSpace(desc))
+                    {
+                        <p class="ct-muted" style="font-size:0.8rem;">@desc</p>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</section>
