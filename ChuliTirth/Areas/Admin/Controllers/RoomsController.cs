@@ -13,11 +13,7 @@ public class RoomsController : AdminControllerBase
 
     public async Task<IActionResult> Index() => View(await _roomService.GetAllRoomsAsync());
 
-    public async Task<IActionResult> Create()
-    {
-        ViewBag.RoomTypes = await _roomService.GetAllRoomTypesAsync();
-        return View(new Room { Status = RoomStatus.Available, IsActive = true });
-    }
+    public IActionResult Create() => View(new Room { Status = RoomStatus.Available, IsActive = true });
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -25,7 +21,6 @@ public class RoomsController : AdminControllerBase
     {
         if (!ModelState.IsValid)
         {
-            ViewBag.RoomTypes = await _roomService.GetAllRoomTypesAsync();
             return View(model);
         }
         await _roomService.CreateRoomAsync(model);

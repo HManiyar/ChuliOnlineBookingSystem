@@ -11,7 +11,6 @@ public interface IRoomService
     Task UpdateRoomTypeAsync(RoomType roomType);
     Task DeactivateRoomTypeAsync(int id);
 
-    Task<List<Room>> GetRoomsByTypeAsync(int roomTypeId);
     Task<List<Room>> GetAllRoomsAsync();
     Task<Room> CreateRoomAsync(Room room);
     Task UpdateRoomAsync(Room room);

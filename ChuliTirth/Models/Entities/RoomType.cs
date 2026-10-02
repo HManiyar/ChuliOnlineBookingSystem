@@ -22,7 +22,8 @@ public class RoomType : BaseEntity
 
     public int DisplayOrder { get; set; }
 
-    public ICollection<Room> Rooms { get; set; } = new List<Room>();
+    // No Rooms collection here — physical rooms are a shared pool, not owned by a rate tier.
+    // See Room.cs and RoomAvailabilityService for why.
     public ICollection<RoomImage> Images { get; set; } = new List<RoomImage>();
     public ICollection<RoomAmenity> RoomAmenities { get; set; } = new List<RoomAmenity>();
 }

@@ -82,39 +82,26 @@ public static class DataSeeder
         db.Amenities.AddRange(amenities);
         await db.SaveChangesAsync();
 
+        // Every physical room has AC fitted; "AC Room" vs "Non-AC Room" is the guest's choice of
+        // whether AC service is included for their stay, not a separate category of room — both
+        // rate tiers draw from the same shared pool of 35 rooms created below (see Room.cs).
         var roomTypes = new List<RoomType>
         {
             new()
             {
                 Name = "AC Room", NameGujarati = "એસી રૂમ", NameHindi = "एसी रूम",
-                Description = "Sample: Comfortable air-conditioned room with attached bathroom, ideal for families visiting the Tirth.",
-                DescriptionGujarati = "નમૂનો: જોડાયેલ બાથરૂમ સાથે આરામદાયક એર-કન્ડિશન્ડ રૂમ.",
-                DescriptionHindi = "नमूना: संलग्न बाथरूम के साथ आरामदायक वातानुकूलित कमरा।",
-                Capacity = 3, BedCount = 2, Price = 700, IsAC = true, HasAttachedBathroom = true, HasHotWater = true, HasWifi = true, HasParking = true, DisplayOrder = 1
+                Description = "Comfortable room with attached bathroom and air conditioning enabled for your stay.",
+                DescriptionGujarati = "જોડાયેલ બાથરૂમ અને તમારા રોકાણ માટે સક્રિય એર-કન્ડિશનર સાથે આરામદાયક રૂમ.",
+                DescriptionHindi = "संलग्न बाथरूम और आपके ठहरने के लिए सक्रिय एयर कंडीशनर के साथ आरामदायक कमरा।",
+                Capacity = 3, BedCount = 2, Price = 1000, IsAC = true, HasAttachedBathroom = true, HasHotWater = true, HasWifi = true, HasParking = true, DisplayOrder = 1
             },
             new()
             {
                 Name = "Non-AC Room", NameGujarati = "નોન-એસી રૂમ", NameHindi = "नॉन-एसी रूम",
-                Description = "Sample: Simple and clean non-AC room with attached bathroom, suitable for a peaceful stay.",
-                DescriptionGujarati = "નમૂનો: જોડાયેલ બાથરૂમ સાથે સાદો અને સ્વચ્છ નોન-એસી રૂમ.",
-                DescriptionHindi = "नमूना: संलग्न बाथरूम के साथ सरल और स्वच्छ नॉन-एसी कमरा।",
-                Capacity = 3, BedCount = 2, Price = 400, IsAC = false, HasAttachedBathroom = true, HasHotWater = true, HasWifi = false, HasParking = true, DisplayOrder = 2
-            },
-            new()
-            {
-                Name = "Family Room", NameGujarati = "ફેમિલી રૂમ", NameHindi = "फैमिली रूम",
-                Description = "Sample: Spacious room for larger families with additional beds and attached bathroom.",
-                DescriptionGujarati = "નમૂનો: વધારાની પથારી અને જોડાયેલ બાથરૂમ સાથે મોટા પરિવારો માટે વિશાળ રૂમ.",
-                DescriptionHindi = "नमूना: अतिरिक्त बिस्तरों और संलग्न बाथरूम के साथ बड़े परिवारों के लिए विशाल कमरा।",
-                Capacity = 5, BedCount = 3, Price = 1000, IsAC = true, HasAttachedBathroom = true, HasHotWater = true, HasWifi = true, HasParking = true, DisplayOrder = 3
-            },
-            new()
-            {
-                Name = "Dormitory / Hall", NameGujarati = "ડોર્મિટરી / હોલ", NameHindi = "डॉर्मिटरी / हॉल",
-                Description = "Sample: Shared hall accommodation for large groups such as Sangh Yatra parties.",
-                DescriptionGujarati = "નમૂનો: સંઘ યાત્રા જેવા મોટા જૂથો માટે શેર કરેલ હોલ આવાસ.",
-                DescriptionHindi = "नमूना: संघ यात्रा जैसे बड़े समूहों के लिए साझा हॉल आवास।",
-                Capacity = 20, BedCount = 20, Price = 150, IsAC = false, HasAttachedBathroom = false, HasHotWater = true, HasWifi = false, HasParking = true, DisplayOrder = 4
+                Description = "The same comfortable room with attached bathroom, booked without air conditioning service.",
+                DescriptionGujarati = "જોડાયેલ બાથરૂમ સાથે એ જ આરામદાયક રૂમ, એર-કન્ડિશનર સેવા વગર બુક કરેલ.",
+                DescriptionHindi = "संलग्न बाथरूम के साथ वही आरामदायक कमरा, एयर कंडीशनर सेवा के बिना बुक किया गया।",
+                Capacity = 3, BedCount = 2, Price = 500, IsAC = false, HasAttachedBathroom = true, HasHotWater = true, HasWifi = true, HasParking = true, DisplayOrder = 2
             }
         };
         db.RoomTypes.AddRange(roomTypes);
@@ -124,26 +111,33 @@ public static class DataSeeder
         {
             ["AC Room"] = "/images/rooms/room-ac.jpg",
             ["Non-AC Room"] = "/images/rooms/room-nonac.jpg",
-            ["Family Room"] = "/images/rooms/room-family.jpg",
-            ["Dormitory / Hall"] = "/images/rooms/room-dorm.jpg",
         };
-
         foreach (var rt in roomTypes)
         {
             var roomImg = roomImageByName.GetValueOrDefault(rt.Name, "/images/rooms/placeholder-room.svg");
-            db.RoomImages.Add(new RoomImage { RoomTypeId = rt.Id, ImageUrl = roomImg, AltText = $"{rt.Name} — sample image", DisplayOrder = 1 });
+            db.RoomImages.Add(new RoomImage { RoomTypeId = rt.Id, ImageUrl = roomImg, AltText = rt.Name, DisplayOrder = 1 });
 
-            var amenityIds = rt.HasWifi ? amenities.Select(a => a.Id).ToList() : amenities.Where(a => a.Name != "Wi-Fi").Select(a => a.Id).ToList();
+            var amenityIds = amenities.Select(a => a.Id).ToList();
             if (!rt.IsAC) amenityIds = amenityIds.Where(id => amenities.First(a => a.Id == id).Name != "Air Conditioning").ToList();
             foreach (var amenityId in amenityIds)
             {
                 db.RoomAmenities.Add(new RoomAmenity { RoomTypeId = rt.Id, AmenityId = amenityId });
             }
+        }
 
-            var roomCount = rt.Name == "Dormitory / Hall" ? 2 : 10;
-            for (var i = 1; i <= roomCount; i++)
+        // Real room/floor mapping for the 35 physical rooms. One shared pool — not owned by
+        // either RoomType above (see Room.cs / RoomAvailabilityService for why).
+        var floorRanges = new[]
+        {
+            ("Ground Floor", 1, 8),
+            ("First Floor", 9, 16),
+            ("Second Floor", 201, 219),
+        };
+        foreach (var (floor, start, end) in floorRanges)
+        {
+            for (var n = start; n <= end; n++)
             {
-                db.Rooms.Add(new Room { RoomTypeId = rt.Id, RoomNumber = $"{rt.DisplayOrder}{i:D2}", Floor = $"Floor {(i <= 5 ? 1 : 2)}", Status = RoomStatus.Available });
+                db.Rooms.Add(new Room { RoomNumber = n.ToString(), Floor = floor, Status = RoomStatus.Available });
             }
         }
         await db.SaveChangesAsync();
@@ -299,7 +293,7 @@ public static class DataSeeder
             {
                 GalleryCategoryId = category.Id,
                 ImageUrl = imageUrl,
-                Caption = $"Sample {name} photo — replace via Admin > Gallery. Not an official Chuli Tirth photo.",
+                Caption = name,
                 DisplayOrder = 1
             });
         }

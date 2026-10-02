@@ -51,9 +51,8 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Room>(e =>
         {
-            e.HasIndex(x => new { x.RoomTypeId, x.RoomNumber }).IsUnique();
+            e.HasIndex(x => x.RoomNumber).IsUnique();
             e.Property(x => x.RoomNumber).HasMaxLength(20).IsRequired();
-            e.HasOne(x => x.RoomType).WithMany(x => x.Rooms).HasForeignKey(x => x.RoomTypeId).OnDelete(DeleteBehavior.Restrict);
         });
 
         modelBuilder.Entity<RoomImage>(e =>

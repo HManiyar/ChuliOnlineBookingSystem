@@ -6,13 +6,12 @@
 </div>
 <div class="table-responsive-ct">
     <table class="table-ct w-100">
-        <thead><tr><th>Room #</th><th>Type</th><th>Floor</th><th>Status</th><th></th></tr></thead>
+        <thead><tr><th>Room #</th><th>Floor</th><th>Status</th><th></th></tr></thead>
         <tbody>
             @foreach (var r in Model)
             {
                 <tr>
                     <td>@r.RoomNumber</td>
-                    <td>@r.RoomType.Name</td>
                     <td>@r.Floor</td>
                     <td><span class="ct-badge ct-badge-default">@r.Status</span></td>
                     <td>

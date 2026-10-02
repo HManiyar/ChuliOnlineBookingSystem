@@ -23,7 +23,6 @@ public class RoomService : IRoomService
         _db.RoomTypes
             .Include(r => r.Images)
             .Include(r => r.RoomAmenities).ThenInclude(ra => ra.Amenity)
-            .Include(r => r.Rooms)
             .AsNoTracking()
             .FirstOrDefaultAsync(r => r.Id == id);
 
@@ -51,11 +50,8 @@ public class RoomService : IRoomService
         await _db.SaveChangesAsync();
     }
 
-    public Task<List<Room>> GetRoomsByTypeAsync(int roomTypeId) =>
-        _db.Rooms.Where(r => r.RoomTypeId == roomTypeId).OrderBy(r => r.RoomNumber).ToListAsync();
-
     public Task<List<Room>> GetAllRoomsAsync() =>
-        _db.Rooms.Include(r => r.RoomType).OrderBy(r => r.RoomTypeId).ThenBy(r => r.RoomNumber).ToListAsync();
+        _db.Rooms.OrderBy(r => r.Floor).ThenBy(r => r.RoomNumber).ToListAsync();
 
     public async Task<Room> CreateRoomAsync(Room room)
     {

@@ -15,7 +15,7 @@ public class RoomAvailabilityServiceTests
 
         for (var i = 1; i <= rooms; i++)
         {
-            db.Rooms.Add(new Room { RoomTypeId = rt.Id, RoomNumber = $"10{i}", Status = RoomStatus.Available, IsActive = true });
+            db.Rooms.Add(new Room { RoomNumber = $"10{i}", Status = RoomStatus.Available, IsActive = true });
         }
         db.SaveChanges();
         return rt;
@@ -94,5 +94,36 @@ public class RoomAvailabilityServiceTests
         var count = await sut.GetAvailableRoomCountAsync(roomType.Id, new DateOnly(2026, 10, 1), new DateOnly(2026, 10, 2));
 
         Assert.Equal(1, count);
+    }
+
+    [Fact]
+    public async Task GetAvailableRoomCount_BookingUnderOneType_BlocksTheSamePhysicalRoomForTheOtherType()
+    {
+        // All rate tiers share the same physical rooms (AC/Non-AC is a per-booking choice, not a
+        // separate room category) — booking a room as "AC" must make it unavailable as "Non-AC"
+        // too for the same dates, since it's the same room either way.
+        var db = TestDbContextFactory.Create();
+        var acType = new RoomType { Name = "AC Room", Capacity = 3, BedCount = 2, Price = 1000, IsActive = true };
+        var nonAcType = new RoomType { Name = "Non-AC Room", Capacity = 3, BedCount = 2, Price = 500, IsActive = true };
+        db.RoomTypes.AddRange(acType, nonAcType);
+        var room = new Room { RoomNumber = "1", Status = RoomStatus.Available, IsActive = true };
+        db.Rooms.Add(room);
+        db.SaveChanges();
+
+        var booking = new Booking
+        {
+            BookingNumber = "CT-2026-000003", Status = BookingStatus.Confirmed,
+            CheckIn = new DateOnly(2026, 10, 1), CheckOut = new DateOnly(2026, 10, 5),
+            FirstName = "A", LastName = "B", Mobile = "1", Email = "a@b.com"
+        };
+        booking.BookingRooms.Add(new BookingRoom { RoomId = room.Id, RoomTypeId = acType.Id, CheckIn = booking.CheckIn, CheckOut = booking.CheckOut, RatePerNight = 1000 });
+        db.Bookings.Add(booking);
+        db.SaveChanges();
+
+        var sut = new RoomAvailabilityService(db);
+
+        var availableAsNonAc = await sut.GetAvailableRoomCountAsync(nonAcType.Id, new DateOnly(2026, 10, 2), new DateOnly(2026, 10, 4));
+
+        Assert.Equal(0, availableAsNonAc);
     }
 }

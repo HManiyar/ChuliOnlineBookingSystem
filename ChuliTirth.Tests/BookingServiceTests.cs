@@ -19,7 +19,7 @@ public class BookingServiceTests
 
         for (var i = 1; i <= rooms; i++)
         {
-            db.Rooms.Add(new Room { RoomTypeId = rt.Id, RoomNumber = $"10{i}", Status = RoomStatus.Available, IsActive = true });
+            db.Rooms.Add(new Room { RoomNumber = $"10{i}", Status = RoomStatus.Available, IsActive = true });
         }
         db.SaveChanges();
 

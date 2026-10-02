@@ -32,10 +32,12 @@ public class RoomAvailabilityService : IRoomAvailabilityService
 
         var roomTypes = await query.Include(rt => rt.Images).OrderBy(rt => rt.DisplayOrder).AsNoTracking().ToListAsync();
 
+        // All room types draw from the same physical room pool (see Room.cs), so "total rooms"
+        // is the same shared figure for every type — not a per-type inventory count.
+        var totalRooms = await _db.Rooms.CountAsync(r => r.IsActive && !UnbookableRoomStatuses.Contains(r.Status));
         var results = new List<RoomTypeAvailability>();
         foreach (var rt in roomTypes)
         {
-            var totalRooms = await _db.Rooms.CountAsync(r => r.RoomTypeId == rt.Id && r.IsActive && !UnbookableRoomStatuses.Contains(r.Status));
             var available = await GetAvailableRoomCountAsync(rt.Id, checkIn, checkOut);
             if (available >= roomsNeeded)
             {
@@ -45,10 +47,13 @@ public class RoomAvailabilityService : IRoomAvailabilityService
         return results;
     }
 
+    // roomTypeId is accepted for interface/call-site symmetry with the rest of the booking flow,
+    // but doesn't filter the room pool — every room can be booked under any rate tier, so
+    // availability is the same shared physical-room count regardless of which tier is asked about.
     public async Task<int> GetAvailableRoomCountAsync(int roomTypeId, DateOnly checkIn, DateOnly checkOut)
     {
         var bookableRoomIds = await _db.Rooms
-            .Where(r => r.RoomTypeId == roomTypeId && r.IsActive && !UnbookableRoomStatuses.Contains(r.Status))
+            .Where(r => r.IsActive && !UnbookableRoomStatuses.Contains(r.Status))
             .Select(r => r.Id)
             .ToListAsync();
 
@@ -65,10 +70,11 @@ public class RoomAvailabilityService : IRoomAvailabilityService
         return bookableRoomIds.Count - occupiedRoomIds.Count;
     }
 
+    // See GetAvailableRoomCountAsync above for why roomTypeId isn't used to filter the room pool.
     public async Task<List<int>> GetAvailableRoomIdsAsync(int roomTypeId, DateOnly checkIn, DateOnly checkOut, int take)
     {
         var bookableRoomIds = await _db.Rooms
-            .Where(r => r.RoomTypeId == roomTypeId && r.IsActive && !UnbookableRoomStatuses.Contains(r.Status))
+            .Where(r => r.IsActive && !UnbookableRoomStatuses.Contains(r.Status))
             .Select(r => r.Id)
             .ToListAsync();
 
@@ -86,7 +92,7 @@ public class RoomAvailabilityService : IRoomAvailabilityService
     public async Task<Dictionary<DateOnly, string>> GetCalendarAsync(int roomTypeId, DateOnly fromDate, DateOnly toDate)
     {
         var result = new Dictionary<DateOnly, string>();
-        var totalRooms = await _db.Rooms.CountAsync(r => r.RoomTypeId == roomTypeId && r.IsActive && !UnbookableRoomStatuses.Contains(r.Status));
+        var totalRooms = await _db.Rooms.CountAsync(r => r.IsActive && !UnbookableRoomStatuses.Contains(r.Status));
 
         for (var day = fromDate; day <= toDate; day = day.AddDays(1))
         {
