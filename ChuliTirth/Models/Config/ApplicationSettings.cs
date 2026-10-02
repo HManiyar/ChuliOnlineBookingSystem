@@ -12,6 +12,11 @@ public class ApplicationSettings
     public bool BookingEnabled { get; set; } = true;
     public bool PaymentEnabled { get; set; }
     public bool PaymentBypassInDevelopment { get; set; } = true;
+
+    // Which real gateway to use when PaymentEnabled is true and that gateway's own settings are
+    // fully configured — "Razorpay" or "Hdfc" (case-insensitive). Falls back to the mock gateway
+    // if the named provider isn't configured, so a typo here can't silently break checkout.
+    public string PaymentGatewayProvider { get; set; } = "Razorpay";
     public bool EmailEnabled { get; set; }
     public bool WhatsAppEnabled { get; set; }
     public bool ExternalJainCalendarApiEnabled { get; set; }

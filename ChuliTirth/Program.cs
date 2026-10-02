@@ -25,6 +25,7 @@ builder.Host.UseSerilog();
 builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection(ApplicationSettings.SectionName));
 builder.Services.Configure<SeedAdminSettings>(builder.Configuration.GetSection(SeedAdminSettings.SectionName));
 builder.Services.Configure<RazorpaySettings>(builder.Configuration.GetSection(RazorpaySettings.SectionName));
+builder.Services.Configure<HdfcSettings>(builder.Configuration.GetSection(HdfcSettings.SectionName));
 
 // --- Database ---
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -60,17 +61,32 @@ builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IRoomAvailabilityService, RoomAvailabilityService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 
-// Real gateway only when both explicitly enabled AND fully configured — missing/partial
-// Razorpay config falls back to the mock so the app never silently breaks in dev/staging.
+// Real gateway only when explicitly enabled AND the selected provider is fully configured —
+// missing/partial config, or an unrecognized PaymentGatewayProvider value, falls back to the
+// mock so the app never silently breaks in dev/staging.
 var razorpaySettings = builder.Configuration.GetSection(RazorpaySettings.SectionName).Get<RazorpaySettings>() ?? new RazorpaySettings();
-var paymentEnabled = builder.Configuration.GetSection(ApplicationSettings.SectionName).Get<ApplicationSettings>()?.PaymentEnabled ?? false;
-if (paymentEnabled && razorpaySettings.IsConfigured)
+var hdfcSettings = builder.Configuration.GetSection(HdfcSettings.SectionName).Get<HdfcSettings>() ?? new HdfcSettings();
+var appSettingsForPaymentSelection = builder.Configuration.GetSection(ApplicationSettings.SectionName).Get<ApplicationSettings>() ?? new ApplicationSettings();
+var paymentEnabled = appSettingsForPaymentSelection.PaymentEnabled;
+var gatewayProvider = appSettingsForPaymentSelection.PaymentGatewayProvider;
+
+if (paymentEnabled && razorpaySettings.IsConfigured && gatewayProvider.Equals("Razorpay", StringComparison.OrdinalIgnoreCase))
 {
     builder.Services.AddHttpClient<IPaymentService, RazorpayPaymentService>(client =>
     {
         client.BaseAddress = new Uri("https://api.razorpay.com/v1/");
         var authBytes = Encoding.ASCII.GetBytes($"{razorpaySettings.KeyId}:{razorpaySettings.KeySecret}");
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authBytes));
+    });
+}
+else if (paymentEnabled && hdfcSettings.IsConfigured && gatewayProvider.Equals("Hdfc", StringComparison.OrdinalIgnoreCase))
+{
+    // HdfcPaymentService is currently a scaffold (see Services/HdfcPaymentService.cs and
+    // HDFC_INTEGRATION.md) — wiring it in here doesn't make checkout work yet, but means
+    // completing that file is the only step left once HDFC's integration kit arrives.
+    builder.Services.AddHttpClient<IPaymentService, HdfcPaymentService>(client =>
+    {
+        client.BaseAddress = new Uri(hdfcSettings.ApiBaseUrl);
     });
 }
 else
