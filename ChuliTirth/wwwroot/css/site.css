@@ -442,3 +442,53 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .ct-quote-text { font-style: italic; }
+
+/* ==========================================================================
+   Gallery lightbox — opened by site.js for any .ct-gallery-img-link
+   ========================================================================== */
+.ct-gallery-img-link { display: block; cursor: zoom-in; }
+
+.ct-lightbox-overlay {
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(20, 12, 8, 0.92);
+  display: flex; align-items: center; justify-content: center;
+  padding: 2.5rem 1rem;
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--ct-fast);
+}
+.ct-lightbox-overlay.open { opacity: 1; visibility: visible; }
+
+.ct-lightbox-figure {
+  position: relative; max-width: min(92vw, 1100px); max-height: 90vh;
+  display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+}
+.ct-lightbox-img {
+  max-width: 100%; max-height: 78vh; object-fit: contain;
+  border-radius: var(--ct-radius); box-shadow: var(--ct-shadow-xl);
+  background: var(--ct-bg-alt);
+}
+.ct-lightbox-caption { color: #f3ecdd; text-align: center; font-size: 0.95rem; min-height: 1.3em; }
+
+.ct-lightbox-close,
+.ct-lightbox-prev,
+.ct-lightbox-next {
+  position: absolute; display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: 50%; border: none;
+  background: rgba(255, 255, 255, 0.12); color: #fff; font-size: 1.4rem;
+  cursor: pointer; transition: background var(--ct-fast);
+}
+.ct-lightbox-close:hover,
+.ct-lightbox-prev:hover,
+.ct-lightbox-next:hover { background: rgba(255, 255, 255, 0.28); }
+
+.ct-lightbox-close { top: -1rem; right: -1rem; }
+.ct-lightbox-prev { left: -1rem; top: 50%; transform: translateY(-50%); }
+.ct-lightbox-next { right: -1rem; top: 50%; transform: translateY(-50%); }
+
+@media (max-width: 600px) {
+  .ct-lightbox-close { top: -2.75rem; right: 0; }
+  .ct-lightbox-prev { left: 0.25rem; }
+  .ct-lightbox-next { right: 0.25rem; }
+}
+
+body.ct-lightbox-locked { overflow: hidden; }

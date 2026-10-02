@@ -16,7 +16,9 @@
                 {
                     @foreach (var img in Model.Images.OrderBy(i => i.DisplayOrder))
                     {
-                        <img src="@img.ImageUrl" alt="@(img.AltText ?? Model.Name)" loading="lazy" style="width:100%;border-radius:10px;height:220px;object-fit:cover;" />
+                        <a href="@img.ImageUrl" class="ct-gallery-img-link">
+                            <img src="@img.ImageUrl" alt="@(img.AltText ?? Model.Name)" loading="lazy" style="width:100%;border-radius:10px;height:220px;object-fit:cover;" />
+                        </a>
                     }
                 }
                 else

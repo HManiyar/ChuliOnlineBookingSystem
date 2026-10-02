@@ -128,7 +128,7 @@
             <div class="ct-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px,1fr));">
                 @foreach (var img in Model.GalleryPreview)
                 {
-                    <a href="@img.ImageUrl" target="_blank" rel="noopener" class="ct-gallery-img-link">
+                    <a href="@img.ImageUrl" class="ct-gallery-img-link">
                         <img src="@img.ImageUrl" alt="@img.Caption" loading="lazy" style="width:100%;height:150px;object-fit:cover;" />
                     </a>
                 }
