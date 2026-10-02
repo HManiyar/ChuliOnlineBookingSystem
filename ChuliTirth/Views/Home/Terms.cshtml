@@ -1,0 +1,126 @@
+@model Dictionary<string, string?>
+@{
+    ViewData["Title"] = "Terms & Conditions";
+    string S(string key, string fallback) => Model.TryGetValue(key, out var v) && !string.IsNullOrWhiteSpace(v) ? v! : fallback;
+    var dharamshalaName = S("DharamshalaName", "Chuli Tirth Dharamshala");
+}
+<section class="ct-section">
+    <div class="container-ct" style="max-width:800px;">
+        <div class="ct-section-title" style="text-align:left;">
+            <h2>Terms &amp; Conditions</h2>
+            <p class="ct-muted">Last updated: @DateTime.UtcNow.ToIst().ToString("dd MMM yyyy")</p>
+        </div>
+
+        <p>
+            These Terms &amp; Conditions govern your use of this website and your booking of
+            accommodation at @dharamshalaName ("the Dharamshala", "we", "us"). By booking a room
+            through this website, you agree to these terms.
+        </p>
+
+        <h5 class="mt-4">1. About This Service</h5>
+        <p class="ct-muted">
+            This website allows pilgrims to search, book and pay for rooms at @dharamshalaName
+            online. It is operated for the benefit of the Trust managing the Dharamshala and is
+            intended to serve genuine pilgrims visiting for darshan, puja and a peaceful stay.
+        </p>
+
+        <h5 class="mt-4">2. Booking Policy</h5>
+        <ul class="ct-muted">
+            <li>Bookings may be made for a maximum of <strong>3 nights</strong> per stay, and up to <strong>6 months</strong> in advance.</li>
+            <li>Each room booked requires at least one adult guest — the number of adults on a booking cannot be fewer than the number of rooms.</li>
+            <li>Specific room numbers are assigned automatically at the time of booking, subject to availability for the selected dates.</li>
+            <li>A booking is confirmed only once payment is successfully completed (see Section 4).</li>
+            <li>Please also read our <a asp-controller="BookingRules" asp-action="Index">Booking Rules &amp; Policies</a>, which cover check-in/check-out timing, identification, and conduct expectations and form part of these Terms.</li>
+        </ul>
+
+        <h5 class="mt-4">3. Pricing</h5>
+        <p class="ct-muted">
+            All prices are displayed in Indian Rupees (₹) and are shown per room, per night, on
+            the Rooms page. Prices are set and may be revised by Dharamshala management at any
+            time; the price shown at the time of booking is the price charged for that booking.
+        </p>
+
+        <h5 class="mt-4">4. Payment</h5>
+        <p class="ct-muted">
+            Payments are processed through <strong>Razorpay</strong>, a third-party licensed
+            payment gateway. We do not store your card, UPI or banking details on our servers —
+            these are handled entirely by Razorpay in accordance with their own security
+            standards and terms. A booking is held temporarily while payment is in progress and
+            is confirmed only once Razorpay confirms the payment as successful.
+        </p>
+
+        <h5 class="mt-4" id="cancellation">5. Cancellation &amp; Refund Policy</h5>
+        <p class="ct-muted">You may cancel a booking from "My Bookings" (if logged in) or by contacting us directly. Refunds for a paid booking are calculated based on how far in advance of check-in the cancellation is made:</p>
+        <table class="table-ct w-100 mb-3">
+            <thead><tr><th>When you cancel</th><th>Refund</th></tr></thead>
+            <tbody>
+                <tr><td>7 or more days before check-in</td><td><strong>100%</strong> refund</td></tr>
+                <tr><td>Between 48 hours and 7 days before check-in</td><td><strong>50%</strong> refund</td></tr>
+                <tr><td>Within 48 hours of check-in, or after check-in</td><td><strong>No refund</strong></td></tr>
+            </tbody>
+        </table>
+        <p class="ct-muted">
+            Eligible refunds are issued automatically to the original payment method via Razorpay
+            when you cancel. Processing back to your bank/card/UPI account may take a few
+            business days and depends on your bank, beyond our control. No-shows and early
+            departures are not eligible for a refund of unused nights.
+        </p>
+
+        <h5 class="mt-4">6. Check-In &amp; Check-Out</h5>
+        <p class="ct-muted">
+            Standard check-in and check-out times are shown on the
+            <a asp-controller="BookingRules" asp-action="Index">Booking Rules</a> page and may be
+            configured by Dharamshala management. Guests may be asked to show valid
+            government-issued photo identification in person at check-in, in line with the
+            Dharamshala's standard practice.
+        </p>
+
+        <h5 class="mt-4">7. Conduct on the Premises</h5>
+        <p class="ct-muted">
+            @dharamshalaName is a Jain religious institution. All guests are expected to respect
+            the premises' Jain vegetarian dietary rules (no onion, garlic, or non-vegetarian food
+            permitted), maintain quiet hours, and conduct themselves respectfully toward fellow
+            pilgrims and staff at all times. Management reserves the right to refuse or discontinue
+            accommodation for conduct that violates these expectations, without refund for the
+            remaining stay.
+        </p>
+
+        <h5 class="mt-4">8. Limitation of Liability</h5>
+        <p class="ct-muted">
+            We make reasonable efforts to keep booking information, pricing and availability
+            accurate, but do not guarantee the website will be error-free or uninterrupted. To the
+            extent permitted by law, @dharamshalaName and its Trust are not liable for indirect
+            or consequential loss arising from your use of this website, except where such
+            liability cannot be excluded under Indian law.
+        </p>
+
+        <h5 class="mt-4">9. Privacy</h5>
+        <p class="ct-muted">
+            Information about what guest data we collect and how it is used is set out in our
+            <a asp-controller="Home" asp-action="Privacy">Privacy Policy</a>.
+        </p>
+
+        <h5 class="mt-4">10. Changes to These Terms</h5>
+        <p class="ct-muted">
+            We may update these Terms from time to time to reflect changes in our booking process
+            or applicable law. The "Last updated" date above reflects the most recent revision.
+            Continued use of this website after a change constitutes acceptance of the updated Terms.
+        </p>
+
+        <h5 class="mt-4">11. Governing Law</h5>
+        <p class="ct-muted">
+            These Terms are governed by the laws of India. Any disputes arising from a booking
+            made through this website are subject to the jurisdiction of the courts applicable to
+            the Dharamshala's registered location.
+        </p>
+
+        <h5 class="mt-4">12. Contact Us</h5>
+        <p class="ct-muted">
+            Questions about these Terms or a booking can be sent via our
+            <a asp-controller="Contact" asp-action="Index">Contact page</a>, or using the details
+            in the footer of this site.
+        </p>
+
+        <p class="ct-muted mt-4"><em>This page reflects the booking, payment and cancellation rules actually enforced by this website. Sections 1, 7, 8 and 11 should be reviewed by the Trust (and legal counsel, if desired) before this site accepts live payments, to confirm registered entity details and any Trust-specific wording.</em></p>
+    </div>
+</section>

@@ -54,7 +54,8 @@
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="checkbox" asp-for="AcceptedRules" id="acceptRules" />
                     <label class="form-check-label" for="acceptRules">
-                        I agree to the <a asp-controller="BookingRules" asp-action="Index" target="_blank">Dharamshala rules and booking policies</a>.
+                        I agree to the <a asp-controller="BookingRules" asp-action="Index" target="_blank">Dharamshala rules</a> and
+                        <a asp-controller="Home" asp-action="Terms" target="_blank">Terms &amp; Conditions</a> (including the cancellation/refund policy).
                     </label>
                     <div><span asp-validation-for="AcceptedRules" class="text-danger"></span></div>
                 </div>

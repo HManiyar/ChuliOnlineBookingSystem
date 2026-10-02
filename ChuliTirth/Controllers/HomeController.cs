@@ -48,6 +48,8 @@ public class HomeController : Controller
 
     public IActionResult Privacy() => View();
 
+    public async Task<IActionResult> Terms() => View(await _settingsService.GetAllAsync());
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error() => RedirectToAction("HandleException", "Error");
 }

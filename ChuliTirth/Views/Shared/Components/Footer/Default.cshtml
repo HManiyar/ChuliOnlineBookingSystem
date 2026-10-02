@@ -22,6 +22,8 @@
         <div>
             <h5>@T("Policies")</h5>
             <p><a asp-controller="BookingRules" asp-action="Index">@T("BookingRules")</a></p>
+            <p><a asp-controller="Home" asp-action="Terms">Terms &amp; Conditions</a></p>
+            <p><a asp-controller="Home" asp-action="Terms" asp-fragment="cancellation">Refund &amp; Cancellation Policy</a></p>
             <p><a asp-controller="Home" asp-action="Privacy">@T("PrivacyPolicy")</a></p>
             <p><a asp-controller="HowToReach" asp-action="Index">@T("HowToReach")</a></p>
         </div>
