@@ -4,7 +4,8 @@
 @{
     ViewData["Title"] = "My Bookings";
     var today = DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5.5));
-    string T(string key) => UiText.T(CultureInfo.CurrentUICulture, key);
+    var cultureInfo = CultureInfo.CurrentUICulture;
+    string T(string key) => UiText.T(cultureInfo, key);
 }
 <section class="ct-section">
     <div class="container-ct">
@@ -12,21 +13,21 @@
 
         @if (!Model.Any())
         {
-            <div class="ct-alert ct-alert-info">You have no bookings yet. <a asp-controller="Rooms" asp-action="Index">Browse rooms</a> to get started.</div>
+            <div class="ct-alert ct-alert-info">@T("NoBookingsYet") <a asp-controller="Rooms" asp-action="Index">@T("BrowseRooms")</a> @T("ToGetStarted")</div>
         }
         else
         {
             <div class="table-responsive-ct">
                 <table class="table-ct w-100">
                     <thead>
-                        <tr><th>@T("BookingNumber")</th><th>@T("Room")</th><th>@T("Dates")</th><th>@T("GuestsShort")</th><th>Amount</th><th>@T("Payment")</th><th>@T("Status")</th><th></th></tr>
+                        <tr><th>@T("BookingNumber")</th><th>@T("Room")</th><th>@T("Dates")</th><th>@T("GuestsShort")</th><th>@T("AmountLabel")</th><th>@T("Payment")</th><th>@T("Status")</th><th></th></tr>
                     </thead>
                     <tbody>
                         @foreach (var b in Model)
                         {
                             <tr>
                                 <td>@b.BookingNumber</td>
-                                <td>@string.Join(", ", b.BookingRooms.Select(r => r.RoomType.Name).Distinct())</td>
+                                <td>@string.Join(", ", b.BookingRooms.Select(r => LocalizationHelper.Pick(cultureInfo, r.RoomType.Name, r.RoomType.NameGujarati, r.RoomType.NameHindi)).Distinct())</td>
                                 <td>@b.CheckIn.ToString("dd MMM") &rarr; @b.CheckOut.ToString("dd MMM yyyy")</td>
                                 <td>@(b.Adults + b.Children)</td>
                                 <td>₹@b.TotalAmount.ToString("N0")</td>

@@ -1,9 +1,12 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
 @{
     ViewData["Title"] = "Privacy Policy";
+    string T(string key) => UiText.T(CultureInfo.CurrentUICulture, key);
 }
 <section class="ct-section">
     <div class="container-ct" style="max-width:800px;">
-        <div class="ct-section-title" style="text-align:left;"><h2>Privacy Policy</h2></div>
+        <div class="ct-section-title" style="text-align:left;"><h2>@T("PrivacyPolicy")</h2></div>
         <p class="ct-muted">Sample content. We collect only the information necessary to process your room booking (name, contact details, stay dates and, optionally, identification for check-in). We do not sell your data to third parties. This policy should be reviewed and finalized by the Dharamshala management before going live.</p>
     </div>
 </section>

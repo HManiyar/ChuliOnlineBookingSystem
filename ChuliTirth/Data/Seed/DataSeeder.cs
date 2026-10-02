@@ -271,21 +271,21 @@ public static class DataSeeder
     {
         if (await db.GalleryCategories.AnyAsync()) return;
 
-        var categoryImages = new (string Name, string ImageUrl)[]
+        var categoryImages = new (string Name, string NameGujarati, string NameHindi, string ImageUrl)[]
         {
-            ("Tirth", "/images/hero/hero-temple.jpg"),
-            ("Temple", "/images/gallery/gallery-domes.jpg"),
-            ("Dharamshala", "/images/gallery/gallery-complex.jpg"),
-            ("Rooms", "/images/rooms/room-ac.jpg"),
-            ("Bhojanshala", "/images/gallery/gallery-bhojanshala.jpg"),
-            ("Facilities", "/images/gallery/gallery-carving.jpg"),
-            ("Events", "/images/gallery/gallery-hilltop.jpg"),
-            ("Surroundings", "/images/gallery/gallery-hilltop.jpg"),
+            ("Tirth", "તીર્થ", "तीर्थ", "/images/hero/hero-temple.jpg"),
+            ("Temple", "મંદિર", "मंदिर", "/images/gallery/gallery-domes.jpg"),
+            ("Dharamshala", "ધર્મશાળા", "धर्मशाला", "/images/gallery/gallery-complex.jpg"),
+            ("Rooms", "રૂમ", "कमरे", "/images/rooms/room-ac.jpg"),
+            ("Bhojanshala", "ભોજનશાળા", "भोजनशाला", "/images/gallery/gallery-bhojanshala.jpg"),
+            ("Facilities", "સુવિધાઓ", "सुविधाएं", "/images/gallery/gallery-carving.jpg"),
+            ("Events", "કાર્યક્રમો", "कार्यक्रम", "/images/gallery/gallery-hilltop.jpg"),
+            ("Surroundings", "આસપાસનો વિસ્તાર", "आसपास का क्षेत्र", "/images/gallery/gallery-hilltop.jpg"),
         };
         var order = 1;
-        foreach (var (name, imageUrl) in categoryImages)
+        foreach (var (name, nameGu, nameHi, imageUrl) in categoryImages)
         {
-            var category = new GalleryCategory { Name = name, DisplayOrder = order++ };
+            var category = new GalleryCategory { Name = name, NameGujarati = nameGu, NameHindi = nameHi, DisplayOrder = order++ };
             db.GalleryCategories.Add(category);
             await db.SaveChangesAsync();
 

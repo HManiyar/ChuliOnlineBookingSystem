@@ -25,7 +25,7 @@
         }
         else if (Context.Request.Query.ContainsKey("bookingNumber"))
         {
-            <div class="ct-alert ct-alert-danger mt-3">No booking found with that number.</div>
+            <div class="ct-alert ct-alert-danger mt-3">@T("NoBookingFoundMsg")</div>
         }
     </div>
 </section>

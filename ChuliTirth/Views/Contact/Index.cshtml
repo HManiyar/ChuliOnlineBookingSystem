@@ -11,11 +11,11 @@
         <div asp-validation-summary="All" class="ct-alert ct-alert-danger"></div>
         <form asp-controller="Contact" asp-action="Index" method="post" class="ct-card" style="padding:1.5rem;">
             @Html.AntiForgeryToken()
-            <div class="mb-3 ct-field"><label asp-for="Name"></label><input asp-for="Name" class="form-control" /><span asp-validation-for="Name" class="text-danger"></span></div>
-            <div class="mb-3 ct-field"><label asp-for="Email"></label><input asp-for="Email" class="form-control" /><span asp-validation-for="Email" class="text-danger"></span></div>
-            <div class="mb-3 ct-field"><label asp-for="Mobile"></label><input asp-for="Mobile" class="form-control" /></div>
-            <div class="mb-3 ct-field"><label asp-for="Subject"></label><input asp-for="Subject" class="form-control" /><span asp-validation-for="Subject" class="text-danger"></span></div>
-            <div class="mb-3 ct-field"><label asp-for="Message"></label><textarea asp-for="Message" rows="4" class="form-control"></textarea><span asp-validation-for="Message" class="text-danger"></span></div>
+            <div class="mb-3 ct-field"><label asp-for="Name">@T("NameLabel")</label><input asp-for="Name" class="form-control" /><span asp-validation-for="Name" class="text-danger"></span></div>
+            <div class="mb-3 ct-field"><label asp-for="Email">@T("EmailLabel")</label><input asp-for="Email" class="form-control" /><span asp-validation-for="Email" class="text-danger"></span></div>
+            <div class="mb-3 ct-field"><label asp-for="Mobile">@T("MobileNumberLabel")</label><input asp-for="Mobile" class="form-control" /></div>
+            <div class="mb-3 ct-field"><label asp-for="Subject">@T("SubjectLabel")</label><input asp-for="Subject" class="form-control" /><span asp-validation-for="Subject" class="text-danger"></span></div>
+            <div class="mb-3 ct-field"><label asp-for="Message">@T("MessageLabel")</label><textarea asp-for="Message" rows="4" class="form-control"></textarea><span asp-validation-for="Message" class="text-danger"></span></div>
             <button type="submit" class="btn-ct-primary">@T("SendMessage")</button>
         </form>
     </div>

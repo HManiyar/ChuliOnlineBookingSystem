@@ -24,8 +24,8 @@
                 <tbody>
                     <tr><th>@T("CheckIn")</th><td>@b.CheckIn.ToString("dd MMM yyyy")</td></tr>
                     <tr><th>@T("CheckOut")</th><td>@b.CheckOut.ToString("dd MMM yyyy")</td></tr>
-                    <tr><th>@T("RoomsHeader")</th><td>@string.Join(", ", b.BookingRooms.Select(r => $"{r.RoomType.Name} (#{r.Room.RoomNumber})"))</td></tr>
-                    <tr><th>@T("GuestsShort")</th><td>@b.Adults adult(s), @b.Children child(ren)</td></tr>
+                    <tr><th>@T("RoomsHeader")</th><td>@string.Join(", ", b.BookingRooms.Select(r => $"{LocalizationHelper.Pick(CultureInfo.CurrentUICulture, r.RoomType.Name, r.RoomType.NameGujarati, r.RoomType.NameHindi)} (#{r.Room.RoomNumber})"))</td></tr>
+                    <tr><th>@T("GuestsShort")</th><td>@b.Adults @T("AdultsParen"), @b.Children @T("ChildrenParen")</td></tr>
                     <tr><th>@T("GuestName")</th><td>@b.FirstName @b.LastName</td></tr>
                     <tr><th>@T("Status")</th><td><span class="ct-badge ct-badge-confirmed">@b.Status</span></td></tr>
                     <tr class="fw-bold"><th>@T("Total")</th><td>₹@b.TotalAmount.ToString("N2")</td></tr>

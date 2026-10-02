@@ -3,13 +3,15 @@
 @model GuestDetailsViewModel
 @{
     ViewData["Title"] = "Guest Information";
-    string T(string key) => UiText.T(CultureInfo.CurrentUICulture, key);
+    var cultureInfo = CultureInfo.CurrentUICulture;
+    string T(string key) => UiText.T(cultureInfo, key);
+    var roomTypeName = Model.RoomType is null ? null : LocalizationHelper.Pick(cultureInfo, Model.RoomType.Name, Model.RoomType.NameGujarati, Model.RoomType.NameHindi);
 }
 <section class="ct-section">
     <div class="container-ct" style="max-width:760px;">
         <div class="ct-section-title" style="text-align:left;">
             <h2>@T("GuestInformation")</h2>
-            <p class="ct-muted">@Model.RoomType?.Name &nbsp;·&nbsp; @Model.CheckIn.ToString("dd MMM yyyy") &rarr; @Model.CheckOut.ToString("dd MMM yyyy") &nbsp;·&nbsp; @Model.Nights night(s) &nbsp;·&nbsp; @Model.RoomsNeeded room(s)</p>
+            <p class="ct-muted">@roomTypeName &nbsp;·&nbsp; @Model.CheckIn.ToString("dd MMM yyyy") &rarr; @Model.CheckOut.ToString("dd MMM yyyy") &nbsp;·&nbsp; @Model.Nights @T("NightsParen") &nbsp;·&nbsp; @Model.RoomsNeeded @T("RoomsParen")</p>
         </div>
 
         <div asp-validation-summary="All" class="ct-alert ct-alert-danger"></div>
@@ -22,20 +24,20 @@
             <input type="hidden" asp-for="RoomsNeeded" />
 
             <div class="row g-3">
-                <div class="col-md-6 ct-field"><label asp-for="FirstName"></label><input asp-for="FirstName" class="form-control" /><span asp-validation-for="FirstName" class="text-danger"></span></div>
-                <div class="col-md-6 ct-field"><label asp-for="LastName"></label><input asp-for="LastName" class="form-control" /><span asp-validation-for="LastName" class="text-danger"></span></div>
-                <div class="col-md-6 ct-field"><label asp-for="Mobile"></label><input asp-for="Mobile" class="form-control" /><span asp-validation-for="Mobile" class="text-danger"></span></div>
-                <div class="col-md-6 ct-field"><label asp-for="Email"></label><input asp-for="Email" class="form-control" /><span asp-validation-for="Email" class="text-danger"></span></div>
-                <div class="col-md-12 ct-field"><label asp-for="Address"></label><input asp-for="Address" class="form-control" /></div>
-                <div class="col-md-4 ct-field"><label asp-for="City"></label><input asp-for="City" class="form-control" /></div>
-                <div class="col-md-4 ct-field"><label asp-for="State"></label><input asp-for="State" class="form-control" /></div>
-                <div class="col-md-4 ct-field"><label asp-for="Country"></label><input asp-for="Country" class="form-control" /></div>
+                <div class="col-md-6 ct-field"><label asp-for="FirstName">@T("FirstNameLabel")</label><input asp-for="FirstName" class="form-control" /><span asp-validation-for="FirstName" class="text-danger"></span></div>
+                <div class="col-md-6 ct-field"><label asp-for="LastName">@T("LastNameLabel")</label><input asp-for="LastName" class="form-control" /><span asp-validation-for="LastName" class="text-danger"></span></div>
+                <div class="col-md-6 ct-field"><label asp-for="Mobile">@T("MobileNumberLabel")</label><input asp-for="Mobile" class="form-control" /><span asp-validation-for="Mobile" class="text-danger"></span></div>
+                <div class="col-md-6 ct-field"><label asp-for="Email">@T("EmailLabel")</label><input asp-for="Email" class="form-control" /><span asp-validation-for="Email" class="text-danger"></span></div>
+                <div class="col-md-12 ct-field"><label asp-for="Address">@T("AddressLabel")</label><input asp-for="Address" class="form-control" /></div>
+                <div class="col-md-4 ct-field"><label asp-for="City">@T("CityLabel")</label><input asp-for="City" class="form-control" /></div>
+                <div class="col-md-4 ct-field"><label asp-for="State">@T("StateLabel")</label><input asp-for="State" class="form-control" /></div>
+                <div class="col-md-4 ct-field"><label asp-for="Country">@T("CountryLabel")</label><input asp-for="Country" class="form-control" /></div>
                 <div class="col-md-3 ct-field">
-                    <label asp-for="Adults"></label>
-                    <input asp-for="Adults" type="number" min="@Model.RoomsNeeded" class="form-control" title="At least @Model.RoomsNeeded (one per room booked)" />
+                    <label asp-for="Adults">@T("Adults")</label>
+                    <input asp-for="Adults" type="number" min="@Model.RoomsNeeded" class="form-control" title="@T("AtLeast") @Model.RoomsNeeded @T("OnePerRoomBooked")" />
                     <span asp-validation-for="Adults" class="text-danger"></span>
                 </div>
-                <div class="col-md-3 ct-field"><label asp-for="Children"></label><input asp-for="Children" type="number" min="0" class="form-control" /></div>
+                <div class="col-md-3 ct-field"><label asp-for="Children">@T("ChildrenLabel")</label><input asp-for="Children" type="number" min="0" class="form-control" /></div>
                 @* ID collection (Aadhaar/PAN/etc.) disabled for now — re-enable by uncommenting
                    this block and the matching hidden fields in Summary.cshtml. *@
                 @*
@@ -50,7 +52,7 @@
                 </div>
                 <div class="col-md-3 ct-field"><label asp-for="IdNumber"></label><input asp-for="IdNumber" class="form-control" /></div>
                 *@
-                <div class="col-md-12 ct-field"><label asp-for="SpecialRequirements"></label><textarea asp-for="SpecialRequirements" class="form-control" rows="2"></textarea></div>
+                <div class="col-md-12 ct-field"><label asp-for="SpecialRequirements">@T("SpecialRequirementsLabel")</label><textarea asp-for="SpecialRequirements" class="form-control" rows="2"></textarea></div>
             </div>
 
             <div class="ct-divider"></div>

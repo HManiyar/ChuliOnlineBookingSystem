@@ -1,12 +1,15 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
 @{
     ViewData["Title"] = "Access Forbidden";
     Layout = "_Layout";
+    string T(string key) => UiText.T(CultureInfo.CurrentUICulture, key);
 }
 <section class="ct-section text-center">
     <div class="container-ct">
         <h1 style="font-size:4rem;">403</h1>
-        <h3>Access Forbidden</h3>
-        <p class="ct-muted">You do not have permission to access this page.</p>
-        <a asp-controller="Home" asp-action="Index" class="btn-ct-primary">Return Home</a>
+        <h3>@T("AccessForbiddenHeading")</h3>
+        <p class="ct-muted">@T("NoPermission")</p>
+        <a asp-controller="Home" asp-action="Index" class="btn-ct-primary">@T("GoHome")</a>
     </div>
 </section>

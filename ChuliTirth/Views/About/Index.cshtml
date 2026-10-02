@@ -1,22 +1,25 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
 @model Dictionary<string, string?>
 @{
     ViewData["Title"] = "About Us";
     string S(string key, string fallback) => Model.TryGetValue(key, out var v) && !string.IsNullOrWhiteSpace(v) ? v! : fallback;
+    string T(string key) => UiText.T(CultureInfo.CurrentUICulture, key);
 }
 <section class="ct-section">
     <div class="container-ct" style="max-width:800px;">
-        <div class="ct-section-title" style="text-align:left;"><h2>About @S("DharamshalaName", "Chuli Tirth Dharamshala")</h2></div>
+        <div class="ct-section-title" style="text-align:left;"><h2>@T("About") @S("DharamshalaName", "Chuli Tirth Dharamshala")</h2></div>
 
-        <h5>About the Tirth</h5>
-        <p class="ct-muted">Sample content — Chuli Tirth is a place of Jain pilgrimage. This section should be updated by the administrator with verified history and significance.</p>
+        <h5>@T("AboutTheTirth")</h5>
+        <p class="ct-muted">@T("AboutTirthSample")</p>
 
-        <h5 class="mt-4">Dharamshala &amp; Management</h5>
-        <p class="ct-muted">Sample content — the Dharamshala is managed by the local Jain Trust to serve pilgrims with clean accommodation and Bhojanshala facilities.</p>
+        <h5 class="mt-4">@T("DharamshalaManagement")</h5>
+        <p class="ct-muted">@T("DharamshalaManagementSample")</p>
 
-        <h5 class="mt-4">Our Mission</h5>
-        <p class="ct-muted">Sample content — to serve every pilgrim with Sadharmik Bhakti (devotion to fellow Jains) in a peaceful, spiritual environment.</p>
+        <h5 class="mt-4">@T("OurMission")</h5>
+        <p class="ct-muted">@T("OurMissionSample")</p>
 
-        <h5 class="mt-4">Visitor Information</h5>
-        <p class="ct-muted">Check-in: @S("CheckInTime", "12:00") &nbsp;·&nbsp; Check-out: @S("CheckOutTime", "10:00"). Please review our <a asp-controller="BookingRules" asp-action="Index">Booking Rules</a> before your visit.</p>
+        <h5 class="mt-4">@T("VisitorInformation")</h5>
+        <p class="ct-muted">@T("CheckIn"): @S("CheckInTime", "12:00") &nbsp;·&nbsp; @T("CheckOut"): @S("CheckOutTime", "10:00"). @T("PleaseReviewRulesPrefix") <a asp-controller="BookingRules" asp-action="Index">@T("BookingRules")</a> @T("PleaseReviewRulesSuffix")</p>
     </div>
 </section>

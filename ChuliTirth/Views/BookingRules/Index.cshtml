@@ -11,7 +11,7 @@
         <div class="ct-section-title" style="text-align:left;"><h2>@T("BookingRulesAndPolicies")</h2></div>
         @foreach (var group in Model.GroupBy(r => r.Category))
         {
-            <h5 class="mt-4">@group.Key</h5>
+            <h5 class="mt-4">@T(group.Key)</h5>
             <ul>
                 @foreach (var rule in group)
                 {

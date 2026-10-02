@@ -1,8 +1,10 @@
 @using System.Globalization
+@using ChuliTirth.Helpers
 @{
     var culture = CultureInfo.CurrentUICulture.Name;
     var pageTitle = ViewData["Title"] is string t && !string.IsNullOrWhiteSpace(t) ? $"{t} — Chuli Tirth Dharamshala" : "Chuli Tirth Dharamshala — Jain Tirth Room Booking";
-    var pageDescription = ViewData["Description"] as string ?? "Book your stay at Chuli Tirth Dharamshala. Peaceful, spiritual accommodation for Jain pilgrims with AC, Non-AC and Family rooms.";
+    var pageDescription = ViewData["Description"] as string ?? "Book your stay at Chuli Tirth Dharamshala. Peaceful, spiritual accommodation for Jain pilgrims with AC and Non-AC rooms.";
+    string T(string key) => UiText.T(CultureInfo.CurrentUICulture, key);
 }
 <!DOCTYPE html>
 <html lang="@culture" dir="ltr">
@@ -24,7 +26,7 @@
     @await RenderSectionAsync("Head", required: false)
 </head>
 <body>
-    <a href="#ct-main" class="visually-hidden-focusable">Skip to main content</a>
+    <a href="#ct-main" class="visually-hidden-focusable">@T("SkipToMainContent")</a>
 
     @await Html.PartialAsync("_Navbar")
     @await Component.InvokeAsync("TithiTicker")

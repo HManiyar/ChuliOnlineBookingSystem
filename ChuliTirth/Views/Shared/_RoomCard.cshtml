@@ -1,27 +1,33 @@
+@using System.Globalization
+@using ChuliTirth.Helpers
 @model RoomType
 @{
     var image = Model.Images?.OrderBy(i => i.DisplayOrder).FirstOrDefault();
     var imgUrl = image?.ImageUrl ?? "/images/rooms/placeholder-room.svg";
+    var cultureInfo = CultureInfo.CurrentUICulture;
+    string T(string key) => UiText.T(cultureInfo, key);
+    var roomName = LocalizationHelper.Pick(cultureInfo, Model.Name, Model.NameGujarati, Model.NameHindi);
+    var roomDesc = LocalizationHelper.Pick(cultureInfo, Model.Description, Model.DescriptionGujarati, Model.DescriptionHindi);
 }
 <div class="ct-card ct-room-card">
-    <img src="@imgUrl" alt="@(image?.AltText ?? Model.Name)" loading="lazy" />
+    <img src="@imgUrl" alt="@roomName" loading="lazy" />
     <div class="body">
-        <h5 class="mb-0">@Model.Name</h5>
+        <h5 class="mb-0">@roomName</h5>
         <div class="ct-muted" style="font-size:0.85rem;">
-            <i class="bi bi-people"></i> Up to @Model.Capacity guests &nbsp;·&nbsp;
-            <i class="bi bi-door-closed"></i> @Model.BedCount beds
+            <i class="bi bi-people"></i> @T("UpTo") @Model.Capacity @T("GuestsLower") &nbsp;·&nbsp;
+            <i class="bi bi-door-closed"></i> @Model.BedCount @T("BedsLower")
         </div>
-        <p class="ct-muted" style="font-size:0.9rem;flex:1;">@Model.Description</p>
+        <p class="ct-muted" style="font-size:0.9rem;flex:1;">@roomDesc</p>
         <div class="amenities">
-            @if (Model.IsAC) { <span class="ct-amenity-pill">AC</span> }
-            @if (Model.HasAttachedBathroom) { <span class="ct-amenity-pill">Attached Bathroom</span> }
-            @if (Model.HasHotWater) { <span class="ct-amenity-pill">Hot Water</span> }
-            @if (Model.HasWifi) { <span class="ct-amenity-pill">Wi-Fi</span> }
-            @if (Model.HasParking) { <span class="ct-amenity-pill">Parking</span> }
+            @if (Model.IsAC) { <span class="ct-amenity-pill">@T("AcPillLabel")</span> }
+            @if (Model.HasAttachedBathroom) { <span class="ct-amenity-pill">@T("AttachedBathroom")</span> }
+            @if (Model.HasHotWater) { <span class="ct-amenity-pill">@T("HotWaterLabel")</span> }
+            @if (Model.HasWifi) { <span class="ct-amenity-pill">@T("WifiLabel")</span> }
+            @if (Model.HasParking) { <span class="ct-amenity-pill">@T("ParkingLabel")</span> }
         </div>
         <div class="d-flex justify-content-between align-items-center mt-2">
-            <span class="price">₹@Model.Price.ToString("N0") <small class="ct-muted">/ night</small></span>
-            <a asp-controller="Rooms" asp-action="Details" asp-route-id="@Model.Id" class="btn-ct-secondary">View Details</a>
+            <span class="price">₹@Model.Price.ToString("N0") <small class="ct-muted">@T("PerNight")</small></span>
+            <a asp-controller="Rooms" asp-action="Details" asp-route-id="@Model.Id" class="btn-ct-secondary">@T("ViewDetails")</a>
         </div>
     </div>
 </div>

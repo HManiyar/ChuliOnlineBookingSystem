@@ -10,7 +10,7 @@
     <div class="container-ct" style="max-width:560px;">
         <div class="ct-section-title" style="text-align:left;">
             <h2>@T("CompletePayment")</h2>
-            <p class="ct-muted">Booking <strong>@b.BookingNumber</strong> is reserved for 15 minutes pending payment.</p>
+            <p class="ct-muted">@T("BookingNumber") <strong>@b.BookingNumber</strong> @T("BookingReservedFor15Min")</p>
         </div>
 
         <div id="payError" class="ct-alert ct-alert-danger" style="display:none;"></div>
@@ -27,9 +27,9 @@
             <form id="antiForgeryForm">@Html.AntiForgeryToken()</form>
 
             <button id="payNowBtn" type="button" class="btn-ct-primary mt-3" style="width:100%;justify-content:center;">
-                <i class="bi bi-credit-card"></i> Pay ₹@((Model.AmountInPaise / 100m).ToString("N2")) Now
+                <i class="bi bi-credit-card"></i> @T("Pay") ₹@((Model.AmountInPaise / 100m).ToString("N2")) @T("NowLabel")
             </button>
-            <p class="ct-muted mt-2" style="font-size:0.8rem;">You'll be asked for UPI, card or netbanking details in a secure Razorpay window. Nothing is charged until you complete that step.</p>
+            <p class="ct-muted mt-2" style="font-size:0.8rem;">@T("PaymentSecureNote")</p>
         </div>
     </div>
 </section>
@@ -41,6 +41,14 @@
             var payBtn = document.getElementById("payNowBtn");
             var errorBox = document.getElementById("payError");
             var token = document.querySelector('#antiForgeryForm input[name="__RequestVerificationToken"]').value;
+            var payNowLabel = @Html.Raw(System.Text.Json.JsonSerializer.Serialize($"{T("Pay")} ₹{(Model.AmountInPaise / 100m):N2} {T("NowLabel")}"));
+            var text = {
+                verifying: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(T("VerifyingPayment"))),
+                notVerified: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(T("PaymentNotVerifiedMsg"))),
+                serverUnreachable: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(T("CouldNotReachServerMsg"))),
+                windowClosed: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(T("PaymentWindowClosedMsg"))),
+                failedPrefix: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(T("PaymentFailedPrefix")))
+            };
 
             function showError(msg) {
                 errorBox.textContent = msg;
@@ -64,7 +72,7 @@
                     theme: { color: "#7a1f2b" },
                     handler: function (response) {
                         payBtn.disabled = true;
-                        payBtn.textContent = "Verifying payment…";
+                        payBtn.textContent = text.verifying;
 
                         var body = new URLSearchParams();
                         body.set("razorpay_order_id", response.razorpay_order_id);
@@ -83,25 +91,25 @@
                                     window.location.href = data.redirectUrl;
                                 } else {
                                     payBtn.disabled = false;
-                                    payBtn.textContent = "Pay ₹@((Model.AmountInPaise / 100m).ToString("N2")) Now";
-                                    showError(data.message || "Payment could not be verified. If an amount was deducted, it will be refunded automatically — please contact us with your booking number.");
+                                    payBtn.textContent = payNowLabel;
+                                    showError(data.message || text.notVerified);
                                 }
                             })
                             .catch(function () {
                                 payBtn.disabled = false;
-                                payBtn.textContent = "Pay ₹@((Model.AmountInPaise / 100m).ToString("N2")) Now";
-                                showError("Could not reach the server to confirm payment. Please check your connection and try again.");
+                                payBtn.textContent = payNowLabel;
+                                showError(text.serverUnreachable);
                             });
                     },
                     modal: {
                         ondismiss: function () {
-                            showError("Payment window closed before completing. Click Pay Now to try again.");
+                            showError(text.windowClosed);
                         }
                     }
                 };
                 var rzp = new Razorpay(options);
                 rzp.on("payment.failed", function (resp) {
-                    showError("Payment failed: " + (resp.error && resp.error.description ? resp.error.description : "please try again."));
+                    showError(text.failedPrefix + " " + (resp.error && resp.error.description ? resp.error.description : ""));
                 });
                 rzp.open();
             }

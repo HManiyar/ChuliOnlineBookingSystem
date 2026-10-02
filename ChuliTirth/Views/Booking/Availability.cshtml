@@ -10,7 +10,7 @@
     <div class="container-ct">
         <div class="ct-section-title" style="text-align:left;">
             <h2>@T("AvailableRooms")</h2>
-            <p class="ct-muted">@Model.CheckIn.ToString("dd MMM yyyy") &rarr; @Model.CheckOut.ToString("dd MMM yyyy") &nbsp;·&nbsp; @Model.Guests guest(s) &nbsp;·&nbsp; @Model.Rooms room(s)</p>
+            <p class="ct-muted">@Model.CheckIn.ToString("dd MMM yyyy") &rarr; @Model.CheckOut.ToString("dd MMM yyyy") &nbsp;·&nbsp; @Model.Guests @T("GuestsParen") &nbsp;·&nbsp; @Model.Rooms @T("RoomsParen")</p>
         </div>
 
         @if (!ViewData.ModelState.IsValid)
@@ -26,21 +26,22 @@
         }
         else if (!Model.Results.Any())
         {
-            <div class="ct-alert ct-alert-info">No rooms are available for the selected dates and guest count. Please try different dates.</div>
+            <div class="ct-alert ct-alert-info">@T("NoRoomsAvailableMsg")</div>
         }
         else
         {
             <div class="ct-grid">
                 @foreach (var r in Model.Results)
                 {
+                    var roomTypeName = LocalizationHelper.Pick(cultureInfo, r.RoomType.Name, r.RoomType.NameGujarati, r.RoomType.NameHindi);
                     <div class="ct-card ct-room-card">
-                        <img src="@(r.RoomType.Images.OrderBy(i=>i.DisplayOrder).FirstOrDefault()?.ImageUrl ?? "/images/rooms/placeholder-room.svg")" alt="@r.RoomType.Name" loading="lazy" />
+                        <img src="@(r.RoomType.Images.OrderBy(i=>i.DisplayOrder).FirstOrDefault()?.ImageUrl ?? "/images/rooms/placeholder-room.svg")" alt="@roomTypeName" loading="lazy" />
                         <div class="body">
-                            <h5 class="mb-0">@r.RoomType.Name</h5>
-                            <div class="ct-muted" style="font-size:0.85rem;"><i class="bi bi-people"></i> Up to @r.RoomType.Capacity guests</div>
-                            <div class="ct-badge ct-badge-confirmed" style="width:fit-content;">@r.AvailableRooms of @r.TotalRooms rooms available</div>
+                            <h5 class="mb-0">@roomTypeName</h5>
+                            <div class="ct-muted" style="font-size:0.85rem;"><i class="bi bi-people"></i> @T("UpTo") @r.RoomType.Capacity @T("GuestsLower")</div>
+                            <div class="ct-badge ct-badge-confirmed" style="width:fit-content;">@r.AvailableRooms @T("Of") @r.TotalRooms @T("RoomsAvailableLabel")</div>
                             <div class="d-flex justify-content-between align-items-center mt-2">
-                                <span class="price">₹@r.RoomType.Price.ToString("N0") <small class="ct-muted">/ night</small></span>
+                                <span class="price">₹@r.RoomType.Price.ToString("N0") <small class="ct-muted">@T("PerNight")</small></span>
                                 <a class="btn-ct-primary" asp-controller="Booking" asp-action="GuestDetails"
                                    asp-route-roomTypeId="@r.RoomType.Id" asp-route-checkIn="@Model.CheckIn.ToString("yyyy-MM-dd")"
                                    asp-route-checkOut="@Model.CheckOut.ToString("yyyy-MM-dd")" asp-route-roomsNeeded="@Model.Rooms"

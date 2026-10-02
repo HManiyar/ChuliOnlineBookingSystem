@@ -23,7 +23,7 @@
 <section class="ct-hero">
     <div class="container-ct">
         <h1>@S("HomepageHeroText", "Experience Peace and Devotion at Chuli Tirth")</h1>
-        <p class="lead">A serene Jain Dharamshala offering comfortable accommodation, pure vegetarian Bhojanshala and a peaceful spiritual atmosphere for every pilgrim.</p>
+        <p class="lead">@T("HomeHeroLead")</p>
         <div class="ct-hero-actions">
             <a asp-controller="Rooms" asp-action="Index" class="btn-ct-gold">@T("BookYourStay")</a>
             <a asp-controller="Rooms" asp-action="Index" class="btn-ct-secondary" style="border-color:#fff;color:#fff;">@T("ViewRooms")</a>
@@ -62,9 +62,9 @@
 <section class="ct-section">
     <div class="container-ct">
         <div class="ct-section-title">
-            <div class="eyebrow">About the Tirth</div>
-            <h2>A Sacred Place of Jain Devotion</h2>
-            <p class="ct-muted">Sample content — replace with verified details via Admin &gt; About. Chuli Tirth welcomes pilgrims from across the country for darshan, puja and peaceful stays.</p>
+            <div class="eyebrow">@T("AboutTheTirth")</div>
+            <h2>@T("SacredPlaceHeading")</h2>
+            <p class="ct-muted">@T("HomeAboutSample")</p>
         </div>
     </div>
 </section>
@@ -73,7 +73,7 @@
     <div class="container-ct">
         <div class="ct-section-title">
             <div class="eyebrow">@T("AccommodationEyebrow")</div>
-            <h2>Room Categories</h2>
+            <h2>@T("RoomCategories")</h2>
         </div>
         <div class="ct-grid">
             @foreach (var rt in Model.RoomTypes)
@@ -87,15 +87,15 @@
 <section class="ct-section">
     <div class="container-ct">
         <div class="ct-section-title">
-            <div class="eyebrow">Amenities</div>
-            <h2>Facilities</h2>
+            <div class="eyebrow">@T("Amenities")</div>
+            <h2>@T("Facilities")</h2>
         </div>
         <div class="ct-grid" style="grid-template-columns: repeat(auto-fill, minmax(140px,1fr));">
             @foreach (var f in Model.Facilities)
             {
                 <div class="ct-card ct-facility">
                     <i class="bi @(string.IsNullOrWhiteSpace(f.Icon) ? "bi-check-circle" : f.Icon)"></i>
-                    <div class="label">@f.Name</div>
+                    <div class="label">@LocalizationHelper.Pick(cultureInfo, f.Name, f.NameGujarati, f.NameHindi)</div>
                 </div>
             }
         </div>
@@ -105,14 +105,14 @@
 <section class="ct-section ct-section-alt">
     <div class="container-ct">
         <div class="ct-section-title">
-            <div class="eyebrow">Why Stay With Us</div>
-            <h2>Jain Values, Hospitality &amp; Comfort</h2>
+            <div class="eyebrow">@T("WhyStayWithUs")</div>
+            <h2>@T("JainValuesHeading")</h2>
         </div>
         <div class="ct-grid">
-            <div class="ct-card" style="padding:1.25rem;"><i class="bi bi-shield-check" style="color:var(--ct-gold);font-size:1.5rem;"></i><h5 class="mt-2">Safe &amp; Peaceful</h5><p class="ct-muted">CCTV-monitored premises with a calm, respectful environment.</p></div>
-            <div class="ct-card" style="padding:1.25rem;"><i class="bi bi-egg-fried" style="color:var(--ct-gold);font-size:1.5rem;"></i><h5 class="mt-2">Pure Jain Bhojan</h5><p class="ct-muted">Strictly Jain vegetarian food served in our Bhojanshala.</p></div>
-            <div class="ct-card" style="padding:1.25rem;"><i class="bi bi-people" style="color:var(--ct-gold);font-size:1.5rem;"></i><h5 class="mt-2">Family Friendly</h5><p class="ct-muted">Spacious family rooms and easy access for elderly visitors.</p></div>
-            <div class="ct-card" style="padding:1.25rem;"><i class="bi bi-flower1" style="color:var(--ct-gold);font-size:1.5rem;"></i><h5 class="mt-2">Spiritual Atmosphere</h5><p class="ct-muted">Close to temple and prayer areas for daily darshan.</p></div>
+            <div class="ct-card" style="padding:1.25rem;"><i class="bi bi-shield-check" style="color:var(--ct-gold);font-size:1.5rem;"></i><h5 class="mt-2">@T("SafePeaceful")</h5><p class="ct-muted">@T("SafePeacefulDesc")</p></div>
+            <div class="ct-card" style="padding:1.25rem;"><i class="bi bi-egg-fried" style="color:var(--ct-gold);font-size:1.5rem;"></i><h5 class="mt-2">@T("PureJainBhojan")</h5><p class="ct-muted">@T("PureJainBhojanDesc")</p></div>
+            <div class="ct-card" style="padding:1.25rem;"><i class="bi bi-people" style="color:var(--ct-gold);font-size:1.5rem;"></i><h5 class="mt-2">@T("FamilyFriendly")</h5><p class="ct-muted">@T("FamilyFriendlyDesc")</p></div>
+            <div class="ct-card" style="padding:1.25rem;"><i class="bi bi-flower1" style="color:var(--ct-gold);font-size:1.5rem;"></i><h5 class="mt-2">@T("SpiritualAtmosphere")</h5><p class="ct-muted">@T("SpiritualAtmosphereDesc")</p></div>
         </div>
     </div>
 </section>
@@ -122,14 +122,15 @@
     <section class="ct-section">
         <div class="container-ct">
             <div class="ct-section-title">
-                <div class="eyebrow">Glimpses</div>
-                <h2>Gallery</h2>
+                <div class="eyebrow">@T("Glimpses")</div>
+                <h2>@T("Gallery")</h2>
             </div>
             <div class="ct-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px,1fr));">
                 @foreach (var img in Model.GalleryPreview)
                 {
+                    var catName = LocalizationHelper.Pick(cultureInfo, img.GalleryCategory.Name, img.GalleryCategory.NameGujarati, img.GalleryCategory.NameHindi);
                     <a href="@img.ImageUrl" class="ct-gallery-img-link">
-                        <img src="@img.ImageUrl" alt="@img.Caption" loading="lazy" style="width:100%;height:150px;object-fit:cover;" />
+                        <img src="@img.ImageUrl" alt="@catName" loading="lazy" style="width:100%;height:150px;object-fit:cover;" />
                     </a>
                 }
             </div>
@@ -144,8 +145,8 @@
     <div class="container-ct" style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
         <div>
             <div class="ct-section-title" style="text-align:left;">
-                <div class="eyebrow">Get in Touch</div>
-                <h2>Contact &amp; Location</h2>
+                <div class="eyebrow">@T("GetInTouch")</div>
+                <h2>@T("ContactAndLocation")</h2>
             </div>
             <p><i class="bi bi-geo-alt"></i> @S("Address", "Chuli Tirth, Gujarat, India")</p>
             <p><i class="bi bi-telephone"></i> @S("Phone", "+91 99999 00000")</p>
