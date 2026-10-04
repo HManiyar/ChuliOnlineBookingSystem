@@ -18,10 +18,17 @@ a temporary, standalone mirror meant to show "how the site looks."
   round-trip.
 - Booking/search/contact forms are present for layout purposes but **do not submit anywhere** —
   submitting shows an inline "preview only" note instead.
-- Login, Admin, My Bookings, and the Jain Tithi calendar are not included (no backend to support
+- An **Admin dashboard preview** lives under `admin/` — same page set as the real Admin area
+  (Dashboard, Bookings, Room Types, Room Inventory, Announcements, Jain Quotes, Jain Tithi,
+  Bhojanshala, Facilities, Gallery, Booking Rules, Contact Messages, Settings), with sample data
+  in `assets/js/admin-data.js`. Open `admin/login.html` — any email/password signs you in (it
+  just sets a `localStorage` flag, no real auth). Every action button (Confirm, Check-in, Save,
+  Delete, etc.) shows a "preview only — not saved" toast instead of mutating anything.
+- My Bookings and the public Jain Tithi calendar page are not included (no backend to support
   them in a static preview).
 - Terms & Privacy pages are not included (legal content pending Trust/legal review in the real
   app).
+- Fully responsive — public site and Admin preview both adapt down to phone width.
 
 ## Running it locally
 

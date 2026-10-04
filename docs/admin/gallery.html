@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gallery — Admin Preview</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../assets/css/site.css" />
+</head>
+<body>
+<div class="ct-admin-shell">
+  <div id="ct-admin-sidebar-mount"></div>
+  <main class="ct-admin-main">
+    <div id="ct-admin-topbar-mount"></div>
+    <div id="mount"></div>
+  </main>
+</div>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/admin-data.js"></script>
+<script src="../assets/js/admin.js"></script>
+<script>
+  document.getElementById("mount").innerHTML = GALLERY.map(function (g) {
+    return '<div class="ct-card mb-3" style="padding:1.25rem;">' +
+      "<h5>" + g.category.en + "</h5>" +
+      '<div class="ct-grid" style="grid-template-columns: repeat(auto-fill, minmax(140px,1fr));">' +
+      '<div><img src="' + g.image + '" style="width:100%;height:100px;object-fit:cover;border-radius:6px;" />' +
+      '<button class="btn-link" style="border:none;background:none;color:var(--ct-danger);font-size:0.8rem;" data-admin-action="Image removed (preview only).">Remove</button></div>' +
+      "</div>" +
+      '<form class="d-flex gap-2 mt-2 flex-wrap" data-admin-form>' +
+      '<input type="text" class="form-control" placeholder="/images/gallery/your-image.jpg" />' +
+      '<input type="text" class="form-control" placeholder="Caption (optional)" />' +
+      '<button type="submit" class="btn-ct-secondary">Add</button></form></div>';
+  }).join("");
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dashboard — Admin Preview</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../assets/css/site.css" />
+</head>
+<body>
+<div class="ct-admin-shell">
+  <div id="ct-admin-sidebar-mount"></div>
+  <main class="ct-admin-main">
+    <div id="ct-admin-topbar-mount"></div>
+
+    <div class="ct-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px,1fr));" id="statsMount"></div>
+
+    <h5 class="mt-4">Recent Bookings</h5>
+    <div class="table-responsive-ct">
+      <table class="table-ct w-100">
+        <thead><tr><th>Booking #</th><th>Guest</th><th>Dates</th><th>Status</th><th>Payment</th><th>Amount</th><th></th></tr></thead>
+        <tbody id="recentBookingsMount"></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<script src="../assets/js/admin-data.js"></script>
+<script src="../assets/js/admin.js"></script>
+<script>
+  var s = adminStats();
+  document.getElementById("statsMount").innerHTML = [
+    [s.todayCheckIns, "Today's Check-ins"],
+    [s.todayCheckOuts, "Today's Check-outs"],
+    [s.currentGuests, "Current Guests"],
+    [s.availableRooms, "Available Rooms"],
+    [s.occupiedRooms, "Occupied Rooms"],
+    [s.pendingBookings, "Pending Bookings"],
+    [s.confirmedBookings, "Confirmed Bookings"],
+    [s.cancelledBookings, "Cancelled Bookings"],
+    ["₹" + s.revenueThisMonth.toLocaleString("en-IN"), "Revenue This Month"]
+  ].map(function (c) {
+    return '<div class="ct-stat-card"><div class="value">' + c[0] + '</div><div class="label">' + c[1] + '</div></div>';
+  }).join("");
+
+  document.getElementById("recentBookingsMount").innerHTML = ADMIN_BOOKINGS.slice(0, 6).map(function (b) {
+    return "<tr><td>" + b.number + "</td><td>" + b.first + " " + b.last + "</td><td>" + b.checkIn + " &rarr; " + b.checkOut + "</td>" +
+      '<td><span class="ct-badge ct-badge-default">' + b.status + "</span></td><td>" + b.payment + "</td><td>₹" + b.amount.toLocaleString("en-IN") + "</td>" +
+      '<td><a href="booking-detail.html?id=' + b.id + '">View</a></td></tr>';
+  }).join("");
+</script>
+</body>
+</html>

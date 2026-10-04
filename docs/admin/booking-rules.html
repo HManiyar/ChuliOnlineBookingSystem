@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Booking Rules — Admin Preview</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../assets/css/site.css" />
+</head>
+<body>
+<div class="ct-admin-shell">
+  <div id="ct-admin-sidebar-mount"></div>
+  <main class="ct-admin-main">
+    <div id="ct-admin-topbar-mount"></div>
+    <div class="ct-admin-topbar"><div></div><button class="btn-ct-primary" data-admin-action="New rule form would open here.">+ New Rule</button></div>
+    <div class="table-responsive-ct">
+      <table class="table-ct w-100">
+        <thead><tr><th>Category</th><th>Title</th><th>Description</th><th></th></tr></thead>
+        <tbody id="mount"></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/admin-data.js"></script>
+<script src="../assets/js/admin.js"></script>
+<script>
+  document.getElementById("mount").innerHTML = BOOKING_RULES.map(function (r) {
+    return "<tr><td>" + t(r.category, "en") + "</td><td>" + r.title.en + "</td><td>" + r.desc.en + "</td>" +
+      '<td><a href="#" data-admin-action="Rule deleted (preview only).">Delete</a></td></tr>';
+  }).join("");
+</script>
+</body>
+</html>

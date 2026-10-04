@@ -263,7 +263,7 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   background:
     linear-gradient(160deg, rgba(92,22,31,0.92), rgba(122,31,43,0.85) 55%, rgba(184,134,46,0.55) 140%),
-    url("/images/hero/hero-temple.jpg") center 35% / cover no-repeat;
+    url("../images/hero/hero-temple.jpg") center 35% / cover no-repeat;
   color: #fff;
   padding: 88px 0 110px;
   overflow: hidden;
@@ -502,4 +502,35 @@ body.ct-lightbox-locked { overflow: hidden; }
   display: none; margin-top: 0.75rem; padding: 0.6rem 0.9rem;
   background: var(--ct-bg-alt); border: 1px solid var(--ct-border); border-radius: var(--ct-radius);
   color: var(--ct-text-muted); font-size: 0.85rem;
+}
+
+.ct-admin-toast {
+  position: fixed; left: 50%; bottom: 1.5rem; transform: translate(-50%, 20px);
+  background: var(--ct-maroon-dark); color: #fff; padding: 0.7rem 1.2rem; border-radius: var(--ct-radius);
+  box-shadow: var(--ct-shadow-lg); font-size: 0.9rem; z-index: 3000;
+  opacity: 0; visibility: hidden; transition: opacity var(--ct-fast), transform var(--ct-fast);
+}
+.ct-admin-toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+
+.ct-admin-login-wrap {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: var(--ct-bg-alt); padding: 1rem;
+}
+
+/* Two-column layouts (About/HowToReach/Home contact, Room Details) — used instead of an inline
+   style so they can actually collapse to one column on phones/tablets. */
+.ct-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.ct-room-detail-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; align-items: start; }
+@media (max-width: 860px) {
+  .ct-two-col, .ct-room-detail-grid { grid-template-columns: 1fr; }
+  .ct-room-detail-grid > :last-child { position: static !important; }
+}
+
+/* General small-screen polish */
+@media (max-width: 600px) {
+  .ct-section { padding: 36px 0; }
+  .ct-hero { padding: 64px 0 80px; }
+  table.table-ct { font-size: 0.85rem; }
+  .ct-admin-main { padding: 1.1rem; }
+  .ct-stat-card .value { font-size: 1.4rem; }
 }

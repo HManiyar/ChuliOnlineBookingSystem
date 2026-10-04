@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Site Settings — Admin Preview</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../assets/css/site.css" />
+</head>
+<body>
+<div class="ct-admin-shell">
+  <div id="ct-admin-sidebar-mount"></div>
+  <main class="ct-admin-main">
+    <div id="ct-admin-topbar-mount"></div>
+    <form class="ct-card" style="padding:1.5rem;max-width:700px;" id="mount" data-admin-form></form>
+  </main>
+</div>
+<script src="../assets/js/admin-data.js"></script>
+<script src="../assets/js/admin.js"></script>
+<script>
+  var fields = Object.keys(ADMIN_SETTINGS_LABELS).map(function (key) {
+    return '<div class="mb-3 ct-field"><label>' + ADMIN_SETTINGS_LABELS[key] + '</label><input type="text" class="form-control" value="' + ADMIN_SETTINGS_VALUES[key] + '" /></div>';
+  }).join("");
+  document.getElementById("mount").innerHTML = fields + '<button type="submit" class="btn-ct-primary">Save Settings</button>';
+</script>
+</body>
+</html>

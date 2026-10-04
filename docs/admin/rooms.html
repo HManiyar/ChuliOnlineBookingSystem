@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Room Inventory — Admin Preview</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../assets/css/site.css" />
+</head>
+<body>
+<div class="ct-admin-shell">
+  <div id="ct-admin-sidebar-mount"></div>
+  <main class="ct-admin-main">
+    <div id="ct-admin-topbar-mount"></div>
+
+    <div class="ct-admin-topbar"><div class="ct-muted">35 rooms — Ground Floor (1-8), First Floor (9-16), Second Floor (201-219)</div><button class="btn-ct-primary" data-admin-action="New room form would open here.">+ New Room</button></div>
+    <div class="table-responsive-ct">
+      <table class="table-ct w-100">
+        <thead><tr><th>Room #</th><th>Floor</th><th>Status</th><th></th></tr></thead>
+        <tbody id="roomsMount"></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<script src="../assets/js/admin-data.js"></script>
+<script src="../assets/js/admin.js"></script>
+<script>
+  document.getElementById("roomsMount").innerHTML = adminRoomInventory().map(function (r) {
+    return "<tr><td>" + r.number + "</td><td>" + r.floor + '</td><td><span class="ct-badge ct-badge-default">' + r.status + "</span></td>" +
+      '<td><form class="d-flex gap-2" data-admin-form>' +
+      '<select class="form-select" style="width:auto;"><option' + (r.status === "Available" ? " selected" : "") + '>Available</option>' +
+      '<option' + (r.status === "Occupied" ? " selected" : "") + '>Occupied</option>' +
+      '<option' + (r.status === "Maintenance" ? " selected" : "") + '>Maintenance</option>' +
+      '<option' + (r.status === "Blocked" ? " selected" : "") + '>Blocked</option>' +
+      '<option' + (r.status === "Inactive" ? " selected" : "") + '>Inactive</option></select>' +
+      '<button type="submit" class="btn-ct-secondary" style="padding:0.3rem 0.8rem;font-size:0.8rem;">Update</button></form></td></tr>';
+  }).join("");
+</script>
+</body>
+</html>

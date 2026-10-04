@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jain Tithi — Admin Preview</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../assets/css/site.css" />
+</head>
+<body>
+<div class="ct-admin-shell">
+  <div id="ct-admin-sidebar-mount"></div>
+  <main class="ct-admin-main">
+    <div id="ct-admin-topbar-mount"></div>
+    <div class="ct-admin-topbar"><div></div><button class="btn-ct-primary" data-admin-action="New entry form would open here.">+ New Entry</button></div>
+    <div class="table-responsive-ct">
+      <table class="table-ct w-100">
+        <thead><tr><th>Date</th><th>Paksha</th><th>Tithi</th><th>Special Occasion</th><th></th></tr></thead>
+        <tbody id="mount"></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<script src="../assets/js/admin-data.js"></script>
+<script src="../assets/js/admin.js"></script>
+<script>
+  document.getElementById("mount").innerHTML = ADMIN_TITHIS.map(function (t) {
+    return "<tr><td>" + t.date + "</td><td>" + t.paksha + "</td><td>" + t.tithi + "</td><td>" + (t.occasion || "") + "</td>" +
+      '<td><a href="#" data-admin-action="Edit form would open here.">Edit</a> <a href="#" data-admin-action="Entry deleted (preview only).">Delete</a></td></tr>';
+  }).join("");
+</script>
+</body>
+</html>
