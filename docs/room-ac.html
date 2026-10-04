@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AC Room — Chuli Tirth Dharamshala</title>
+<meta name="robots" content="noindex" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;800&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="assets/css/site.css" />
+</head>
+<body>
+<div class="ct-preview-banner" data-i18n="PreviewBannerText"></div>
+<div id="ct-navbar-mount"></div>
+
+<main id="ct-main">
+<section class="ct-section">
+  <div class="container-ct" style="display:grid;grid-template-columns:2fr 1fr;gap:2rem;align-items:start;">
+    <div>
+      <div class="ct-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-bottom:1.5rem;" id="roomImagesMount"></div>
+      <h1 id="roomName"></h1>
+      <p id="roomDesc"></p>
+
+      <h5 class="mt-4" data-i18n="Amenities"></h5>
+      <div class="amenities" id="roomAmenitiesMount"></div>
+
+      <h5 class="mt-4" data-i18n="OccupancyAndBeds"></h5>
+      <p><i class="bi bi-people"></i> <span id="roomOccupancy"></span></p>
+
+      <p class="ct-muted mt-4"><i class="bi bi-info-circle"></i> <span data-i18n="PleaseReviewRulesPrefix"></span> <a href="booking-rules.html" data-i18n="BookingRules"></a> <span data-i18n="PleaseReviewRulesSuffixBooking"></span></p>
+    </div>
+
+    <div class="ct-card" style="padding:1.5rem;position:sticky;top:90px;">
+      <div class="price mb-2"><span id="roomPrice"></span> <small class="ct-muted" data-i18n="PerNight"></small></div>
+      <form data-preview-form>
+        <div class="mb-2 ct-field"><label data-i18n="CheckIn"></label><input type="date" class="form-control ct-checkin-input" data-max-nights="3" /></div>
+        <div class="mb-2 ct-field"><label data-i18n="CheckOut"></label><input type="date" class="form-control ct-checkout-input" /></div>
+        <div class="mb-2 ct-field"><label data-i18n="RoomsCount"></label><input type="number" min="1" max="10" class="form-control" value="1" /></div>
+        <div class="mb-3 ct-field"><label data-i18n="Adults"></label><input type="number" min="1" max="30" class="form-control" value="1" /></div>
+        <button type="submit" class="btn-ct-primary w-100 justify-content-center"><i class="bi bi-calendar-check"></i> <span data-i18n="BookThisRoom"></span></button>
+        <div class="ct-preview-form-note" data-i18n="PreviewFormNote"></div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<div id="ct-footer-mount"></div>
+
+<script src="assets/js/data.js"></script>
+<script>
+  window.renderDynamicContent = function (lang) {
+    var rt = ROOM_TYPES.find(function (r) { return r.id === "ac"; });
+    document.title = rt.name[lang] + " — Chuli Tirth Dharamshala";
+    document.getElementById("roomName").textContent = rt.name[lang];
+    document.getElementById("roomDesc").textContent = rt.description[lang];
+    document.getElementById("roomPrice").textContent = "₹" + rt.price.toLocaleString("en-IN");
+    document.getElementById("roomOccupancy").innerHTML =
+      t("UpTo", lang) + " " + rt.capacity + " " + t("GuestsLower", lang) + " &nbsp;&middot;&nbsp; " + rt.beds + " " + t("BedsLower", lang) +
+      " &nbsp;&middot;&nbsp; <i class=\"bi bi-droplet\"></i> " + t("AttachedBathroom", lang);
+
+    document.getElementById("roomImagesMount").innerHTML =
+      '<a href="' + rt.image + '" class="ct-gallery-img-link"><img src="' + rt.image + '" alt="' + rt.name[lang] + '" loading="lazy" style="width:100%;border-radius:10px;height:220px;object-fit:cover;" /></a>';
+
+    var pills = [];
+    if (rt.isAC) pills.push(t("AcPillLabel", lang));
+    if (rt.hasBathroom) pills.push(t("AttachedBathroom", lang));
+    if (rt.hasHotWater) pills.push(t("HotWaterLabel", lang));
+    if (rt.hasWifi) pills.push(t("WifiLabel", lang));
+    if (rt.hasParking) pills.push(t("ParkingLabel", lang));
+    document.getElementById("roomAmenitiesMount").innerHTML = pills.map(function (p) {
+      return '<span class="ct-amenity-pill">' + p + '</span>';
+    }).join("");
+  };
+</script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

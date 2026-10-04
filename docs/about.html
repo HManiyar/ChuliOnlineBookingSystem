@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>About Us — Chuli Tirth Dharamshala</title>
+<meta name="robots" content="noindex" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;800&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="assets/css/site.css" />
+</head>
+<body>
+<div class="ct-preview-banner" data-i18n="PreviewBannerText"></div>
+<div id="ct-navbar-mount"></div>
+
+<main id="ct-main">
+<section class="ct-section">
+  <div class="container-ct" style="max-width:800px;">
+    <div class="ct-section-title" style="text-align:left;"><h2><span data-i18n="About"></span> <span id="aboutName"></span></h2></div>
+
+    <h5 data-i18n="AboutTheTirth"></h5>
+    <p class="ct-muted" data-i18n="AboutTirthSample"></p>
+
+    <h5 class="mt-4" data-i18n="DharamshalaManagement"></h5>
+    <p class="ct-muted" data-i18n="DharamshalaManagementSample"></p>
+
+    <h5 class="mt-4" data-i18n="OurMission"></h5>
+    <p class="ct-muted" data-i18n="OurMissionSample"></p>
+
+    <h5 class="mt-4" data-i18n="VisitorInformation"></h5>
+    <p class="ct-muted">
+      <span data-i18n="CheckIn"></span>: <span id="aboutCheckIn"></span> &nbsp;&middot;&nbsp;
+      <span data-i18n="CheckOut"></span>: <span id="aboutCheckOut"></span>.
+      <span data-i18n="PleaseReviewRulesPrefix"></span> <a href="booking-rules.html" data-i18n="BookingRules"></a> <span data-i18n="PleaseReviewRulesSuffix"></span>
+    </p>
+  </div>
+</section>
+</main>
+
+<div id="ct-footer-mount"></div>
+
+<script src="assets/js/data.js"></script>
+<script>
+  window.renderDynamicContent = function (lang) {
+    document.getElementById("aboutName").textContent = SITE_SETTINGS.DharamshalaName;
+    document.getElementById("aboutCheckIn").textContent = SITE_SETTINGS.CheckInTime;
+    document.getElementById("aboutCheckOut").textContent = SITE_SETTINGS.CheckOutTime;
+  };
+</script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

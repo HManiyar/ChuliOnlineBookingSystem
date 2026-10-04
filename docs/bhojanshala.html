@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bhojanshala — Chuli Tirth Dharamshala</title>
+<meta name="robots" content="noindex" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;800&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="assets/css/site.css" />
+</head>
+<body>
+<div class="ct-preview-banner" data-i18n="PreviewBannerText"></div>
+<div id="ct-navbar-mount"></div>
+
+<main id="ct-main">
+<section class="ct-section">
+  <div class="container-ct" style="max-width:700px;">
+    <div class="ct-section-title"><h2 data-i18n="JainBhojanshala"></h2><p class="ct-muted" data-i18n="BhojanshalaSubtitle"></p></div>
+    <div class="table-responsive-ct">
+      <table class="table-ct w-100">
+        <thead><tr><th data-i18n="Meal"></th><th data-i18n="Timing"></th></tr></thead>
+        <tbody id="bhojanshalaMount"></tbody>
+      </table>
+    </div>
+    <div class="ct-alert ct-alert-info mt-3"><i class="bi bi-info-circle"></i> <span data-i18n="BhojanshalaTimingNote"></span></div>
+  </div>
+</section>
+</main>
+
+<div id="ct-footer-mount"></div>
+
+<script src="assets/js/data.js"></script>
+<script>
+  window.renderDynamicContent = function (lang) {
+    document.getElementById("bhojanshalaMount").innerHTML = BHOJANSHALA.map(function (b) {
+      return "<tr><td>" + b.meal[lang] + "</td><td>" + b.time + "</td></tr>";
+    }).join("");
+  };
+</script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

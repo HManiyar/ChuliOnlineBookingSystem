@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Booking Rules — Chuli Tirth Dharamshala</title>
+<meta name="robots" content="noindex" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;800&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="assets/css/site.css" />
+</head>
+<body>
+<div class="ct-preview-banner" data-i18n="PreviewBannerText"></div>
+<div id="ct-navbar-mount"></div>
+
+<main id="ct-main">
+<section class="ct-section">
+  <div class="container-ct" style="max-width:800px;">
+    <div class="ct-section-title" style="text-align:left;"><h2 data-i18n="BookingRulesAndPolicies"></h2></div>
+    <div id="rulesMount"></div>
+  </div>
+</section>
+</main>
+
+<div id="ct-footer-mount"></div>
+
+<script src="assets/js/data.js"></script>
+<script>
+  window.renderDynamicContent = function (lang) {
+    var byCategory = {};
+    var order = [];
+    BOOKING_RULES.forEach(function (r) {
+      if (!byCategory[r.category]) { byCategory[r.category] = []; order.push(r.category); }
+      byCategory[r.category].push(r);
+    });
+    var html = order.map(function (cat) {
+      var items = byCategory[cat].map(function (r) {
+        return "<li><strong>" + r.title[lang] + ":</strong> " + r.desc[lang] + "</li>";
+      }).join("");
+      return '<h5 class="mt-4">' + t(cat, lang) + "</h5><ul>" + items + "</ul>";
+    }).join("");
+    document.getElementById("rulesMount").innerHTML = html;
+  };
+</script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

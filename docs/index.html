@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chuli Tirth Dharamshala — Preview</title>
+<meta name="robots" content="noindex" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;800&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="assets/css/site.css" />
+</head>
+<body>
+<div class="ct-preview-banner" data-i18n="PreviewBannerText"></div>
+<div id="ct-navbar-mount"></div>
+
+<main id="ct-main">
+<section class="ct-hero">
+  <div class="container-ct">
+    <h1>Experience Peace and Devotion at Chuli Tirth</h1>
+    <p class="lead" data-i18n="HomeHeroLead"></p>
+    <div class="ct-hero-actions">
+      <a href="rooms.html" class="btn-ct-gold" data-i18n="BookYourStay"></a>
+      <a href="rooms.html" class="btn-ct-secondary" style="border-color:#fff;color:#fff;" data-i18n="ViewRooms"></a>
+    </div>
+  </div>
+</section>
+
+<div class="container-ct">
+  <div class="ct-search-card">
+    <form data-preview-form>
+      <div class="ct-search-grid">
+        <div class="ct-field"><label data-i18n="CheckIn"></label><input type="date" class="form-control ct-checkin-input" data-max-nights="3" /></div>
+        <div class="ct-field"><label data-i18n="CheckOut"></label><input type="date" class="form-control ct-checkout-input" /></div>
+        <div class="ct-field"><label data-i18n="Guests"></label><input type="number" min="1" max="30" class="form-control" value="2" /></div>
+        <div class="ct-field"><label data-i18n="RoomsCount"></label><input type="number" min="1" max="10" class="form-control" value="1" /></div>
+        <div class="ct-field"><button type="submit" class="btn-ct-primary" style="width:100%;justify-content:center;"><i class="bi bi-search"></i> <span data-i18n="CheckAvailability"></span></button></div>
+      </div>
+      <div class="ct-preview-form-note" data-i18n="PreviewFormNote"></div>
+    </form>
+  </div>
+</div>
+
+<section class="ct-section">
+  <div class="container-ct">
+    <div class="ct-section-title">
+      <div class="eyebrow" data-i18n="AboutTheTirth"></div>
+      <h2 data-i18n="SacredPlaceHeading"></h2>
+      <p class="ct-muted" data-i18n="HomeAboutSample"></p>
+    </div>
+  </div>
+</section>
+
+<section class="ct-section ct-section-alt">
+  <div class="container-ct">
+    <div class="ct-section-title">
+      <div class="eyebrow" data-i18n="AccommodationEyebrow"></div>
+      <h2 data-i18n="RoomCategories"></h2>
+    </div>
+    <div class="ct-grid" id="roomCardsMount"></div>
+  </div>
+</section>
+
+<section class="ct-section">
+  <div class="container-ct">
+    <div class="ct-section-title">
+      <div class="eyebrow" data-i18n="Amenities"></div>
+      <h2 data-i18n="Facilities"></h2>
+    </div>
+    <div class="ct-grid" style="grid-template-columns: repeat(auto-fill, minmax(140px,1fr));" id="facilitiesPreviewMount"></div>
+  </div>
+</section>
+
+<section class="ct-section ct-section-alt">
+  <div class="container-ct">
+    <div class="ct-section-title">
+      <div class="eyebrow" data-i18n="WhyStayWithUs"></div>
+      <h2 data-i18n="JainValuesHeading"></h2>
+    </div>
+    <div class="ct-grid">
+      <div class="ct-card" style="padding:1.25rem;"><i class="bi bi-shield-check" style="color:var(--ct-gold);font-size:1.5rem;"></i><h5 class="mt-2" data-i18n="SafePeaceful"></h5><p class="ct-muted" data-i18n="SafePeacefulDesc"></p></div>
+      <div class="ct-card" style="padding:1.25rem;"><i class="bi bi-egg-fried" style="color:var(--ct-gold);font-size:1.5rem;"></i><h5 class="mt-2" data-i18n="PureJainBhojan"></h5><p class="ct-muted" data-i18n="PureJainBhojanDesc"></p></div>
+      <div class="ct-card" style="padding:1.25rem;"><i class="bi bi-people" style="color:var(--ct-gold);font-size:1.5rem;"></i><h5 class="mt-2" data-i18n="FamilyFriendly"></h5><p class="ct-muted" data-i18n="FamilyFriendlyDesc"></p></div>
+      <div class="ct-card" style="padding:1.25rem;"><i class="bi bi-flower1" style="color:var(--ct-gold);font-size:1.5rem;"></i><h5 class="mt-2" data-i18n="SpiritualAtmosphere"></h5><p class="ct-muted" data-i18n="SpiritualAtmosphereDesc"></p></div>
+    </div>
+  </div>
+</section>
+
+<section class="ct-section">
+  <div class="container-ct">
+    <div class="ct-section-title">
+      <div class="eyebrow" data-i18n="Glimpses"></div>
+      <h2 data-i18n="Gallery"></h2>
+    </div>
+    <div class="ct-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px,1fr));" id="galleryPreviewMount"></div>
+    <div class="text-center mt-3"><a href="gallery.html" class="btn-ct-secondary" data-i18n="ViewFullGallery"></a></div>
+  </div>
+</section>
+
+<section class="ct-section ct-section-alt">
+  <div class="container-ct" style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
+    <div>
+      <div class="ct-section-title" style="text-align:left;">
+        <div class="eyebrow" data-i18n="GetInTouch"></div>
+        <h2 data-i18n="ContactAndLocation"></h2>
+      </div>
+      <p><i class="bi bi-geo-alt"></i> <span id="homeAddress"></span></p>
+      <p><i class="bi bi-telephone"></i> <span id="homePhone"></span></p>
+      <p><i class="bi bi-envelope"></i> <span id="homeEmail"></span></p>
+      <a href="contact.html" class="btn-ct-primary" data-i18n="ContactUs"></a>
+    </div>
+    <div><iframe title="Location map" src="https://maps.google.com/maps?q=Chuli%20Jain%20Tirth&t=&z=13&ie=UTF8&iwloc=&output=embed" style="width:100%;height:260px;border:0;border-radius:10px;" loading="lazy"></iframe></div>
+  </div>
+</section>
+</main>
+
+<div id="ct-footer-mount"></div>
+
+<script src="assets/js/data.js"></script>
+<script>
+  window.renderDynamicContent = function (lang) {
+    document.getElementById("homeAddress").textContent = SITE_SETTINGS.Address;
+    document.getElementById("homePhone").textContent = SITE_SETTINGS.Phone;
+    document.getElementById("homeEmail").textContent = SITE_SETTINGS.Email;
+
+    var roomsMount = document.getElementById("roomCardsMount");
+    roomsMount.innerHTML = ROOM_TYPES.map(function (rt) {
+      var pills = [];
+      if (rt.isAC) pills.push(t("AcPillLabel", lang));
+      if (rt.hasBathroom) pills.push(t("AttachedBathroom", lang));
+      if (rt.hasHotWater) pills.push(t("HotWaterLabel", lang));
+      if (rt.hasWifi) pills.push(t("WifiLabel", lang));
+      if (rt.hasParking) pills.push(t("ParkingLabel", lang));
+      return '<div class="ct-card ct-room-card">' +
+        '<img src="' + rt.image + '" alt="' + rt.name[lang] + '" loading="lazy" />' +
+        '<div class="body">' +
+        '<h5 class="mb-0">' + rt.name[lang] + '</h5>' +
+        '<div class="ct-muted" style="font-size:0.85rem;"><i class="bi bi-people"></i> ' + t("UpTo", lang) + ' ' + rt.capacity + ' ' + t("GuestsLower", lang) + ' &nbsp;&middot;&nbsp; <i class="bi bi-door-closed"></i> ' + rt.beds + ' ' + t("BedsLower", lang) + '</div>' +
+        '<p class="ct-muted" style="font-size:0.9rem;flex:1;">' + rt.description[lang] + '</p>' +
+        '<div class="amenities">' + pills.map(function (p) { return '<span class="ct-amenity-pill">' + p + '</span>'; }).join("") + '</div>' +
+        '<div class="d-flex justify-content-between align-items-center mt-2">' +
+        '<span class="price">₹' + rt.price.toLocaleString("en-IN") + ' <small class="ct-muted">' + t("PerNight", lang) + '</small></span>' +
+        '<a href="' + rt.page + '" class="btn-ct-secondary">' + t("ViewDetails", lang) + '</a>' +
+        '</div></div></div>';
+    }).join("");
+
+    var facMount = document.getElementById("facilitiesPreviewMount");
+    facMount.innerHTML = FACILITIES.map(function (f) {
+      return '<div class="ct-card ct-facility"><i class="bi ' + f.icon + '"></i><div class="label">' + f.name[lang] + '</div></div>';
+    }).join("");
+
+    var galMount = document.getElementById("galleryPreviewMount");
+    galMount.innerHTML = GALLERY.slice(0, 8).map(function (g) {
+      return '<a href="' + g.image + '" class="ct-gallery-img-link"><img src="' + g.image + '" alt="' + g.category[lang] + '" loading="lazy" style="width:100%;height:150px;object-fit:cover;" /></a>';
+    }).join("");
+  };
+</script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>
